@@ -1,42 +1,42 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
-import TagPrimary from "../components/TagPrimary";
+import Swiper_image from "../components/Swiper_image";
 
 export default function Write() {
   const [text, setText] = useState("");
-  const onDragged = (e) => {
+  const onDragged = () => {
     const text = window.getSelection().toString();
+    if (text.length <= 0) return;
 
-    console.log(e);
-    console.log(text);
     setText(text);
   };
+
+  // Date
+  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
 
   return (
     <Wrapper>
       <Top>
-        <Date>2023/02/02</Date>
-        <Tags>
-          <TagPrimary />
-          <TagPrimary />
-          <TagPrimary />
-        </Tags>
+        <DateText>{date}</DateText>
+        <CustomTags />
       </Top>
 
       <Body>
         <TextBox>
-          <Input type="text" onMouseUp={(e) => onDragged(e)} />
+          <Input
+            type="text"
+            placeholder="Write note..."
+            onMouseUp={() => onDragged()}
+          />
           <Text>
             <InputText>{text}</InputText>
             <ButtonP>CONVERT</ButtonP>
           </Text>
         </TextBox>
         <ImageBox>
-          <Image />
-          <Image />
-          <Image />
-          <Image />
+          <Swiper_image />
         </ImageBox>
       </Body>
     </Wrapper>
@@ -48,6 +48,8 @@ const Wrapper = styled.div`
   height: calc(100vh - 85px);
   margin: 0 auto;
   padding: 0 50px;
+
+  overflow-y: hidden;
 `;
 
 const Top = styled.div`
@@ -56,23 +58,17 @@ const Top = styled.div`
   margin-top: 30px;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
 `;
 
-const Date = styled.div`
+const DateText = styled.div`
   font-family: "NotoSans-Semibold";
   font-size: 14px;
 `;
 
-const Tags = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 5px;
-`;
-
 const Body = styled.div`
   width: 100%;
-  height: 85%;
+  height: 90%;
   margin-top: 10px;
 
   display: flex;
@@ -86,7 +82,8 @@ const TextBox = styled.div`
 
 const ImageBox = styled.div`
   flex: 2;
-  margin-left: 10px;
+  margin-left: 20px;
+  height: 100%;
 `;
 
 const Input = styled.textarea`
@@ -111,6 +108,10 @@ const Input = styled.textarea`
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  &::placeholder {
+    color: lightgray;
   }
 `;
 

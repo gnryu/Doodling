@@ -7,6 +7,7 @@ export default function TagWhite() {
 
 const Containter = styled.div`
   background: rgba(255, 255, 255, 0.3);
+  color: #fff;
   border-radius: 50px;
 
   min-width: 60px;

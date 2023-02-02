@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/Header";
 import NewNote from "../components/NewNote";
@@ -6,6 +7,8 @@ import Note from "../components/Note";
 import ImageSearch from "../img/ic_search.svg";
 
 export default function Main() {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <SearchWrapper>

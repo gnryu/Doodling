@@ -1,11 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ImageMemo from "../img/ic_memo.svg";
 
 export default function NewNote() {
+  const navigate = useNavigate();
+
   return (
-    <Container>
-      <Text>Make new note...</Text>
+    <Container
+      onClick={() => {
+        navigate("/write");
+        console.log("write");
+      }}
+    >
+      <Text>Make new note ☺</Text>
       <Image src={ImageMemo} />
     </Container>
   );
