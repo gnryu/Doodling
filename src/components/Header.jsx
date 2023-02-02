@@ -26,7 +26,9 @@ const HeaderWrap = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 1000px;
+  max-width: 1200px;
+  padding-left: 50px;
+  padding-right: 50px;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
