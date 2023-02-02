@@ -18,11 +18,13 @@ const HeaderWrap = styled.div`
   left: 0px;
   top: 0px;
   padding: 10px 0;
-  margin: 0;
+  margin: auto;
   background-color: white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03);
   z-index: 10;
+
   width: 100%;
+  height: 60px;
 `;
 
 const Wrapper = styled.div`

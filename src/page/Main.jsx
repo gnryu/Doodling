@@ -1,31 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../components/Header";
-import NewNote from "../../components/NewNote";
-import Note from "../../components/Note";
-import ImageSearch from "../../img/ic_search.svg";
+import Header from "../components/Header";
+import NewNote from "../components/NewNote";
+import Note from "../components/Note";
+import ImageSearch from "../img/ic_search.svg";
 
 export default function Main() {
   return (
-    <>
-      <Header />
-      <Wrapper>
-        <SearchWrapper>
-          <Search type="text" placeholder="Search tags..." />
-          <SearchImage src={ImageSearch} />
-        </SearchWrapper>
-        <MemoWrapper>
-          <NewNote />
-          <Note />
-          <Note />
-          <Note />
-          <Note />
-          <Note />
-          <Note />
-          <Note />
-        </MemoWrapper>
-      </Wrapper>
-    </>
+    <Wrapper>
+      <SearchWrapper>
+        <Search type="text" placeholder="Search tags..." />
+        <SearchImage src={ImageSearch} />
+      </SearchWrapper>
+      <MemoWrapper>
+        <NewNote />
+        <Note />
+        <Note />
+        <Note />
+        <Note />
+        <Note />
+        <Note />
+        <Note />
+      </MemoWrapper>
+    </Wrapper>
   );
 }
 
