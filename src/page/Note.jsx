@@ -2,67 +2,37 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
-import ImageEditable from "../components/ImageEditable";
-import Modal_Result from "../components/Modal_Result";
+import Modal_Image from "../components/Modal_Image";
+import Tags from "../components/Tags";
 
-export default function Write() {
+export default function Note() {
   // Date
   const date = new Date().toISOString().substr(0, 10).replace("T", " ");
 
-  // Drag Text
-  const [text, setText] = useState("");
-  const onDragged = () => {
-    const text = window.getSelection().toString();
-    if (text.length <= 0) return;
-
-    setText(text);
-  };
-
   // Modal
   const [showModal, setShowModal] = useState(false);
-  const convert = () => {
-    if (text.length <= 0) {
-      alert("Text must be more than 1 word");
-      return;
-    }
-
-    // 1. text 변환시키기
-    // 2. 이미지 받아서 텍스트 & 이미지 모달로 넘기기
-    // 3. 모달 띄우기
-    // 4. text 지우기
-
-    setShowModal(true);
-  };
 
   return (
     <>
       <Wrapper>
         <Top>
           <DateText>{date}</DateText>
-          <CustomTags />
+          <Tags />
         </Top>
 
         <Body>
           <TextBox>
-            <Input
-              type="text"
-              placeholder="Write note..."
-              onMouseUp={() => onDragged()}
-            />
-            <Text>
-              <InputText>{text}</InputText>
-              <ButtonP onClick={convert}>CONVERT</ButtonP>
-            </Text>
+            <Input> DOg is shalalalal</Input>
           </TextBox>
           <ImageBox>
-            <ImageEditable />
-            <ImageEditable />
-            <ImageEditable />
-            <ImageEditable />
+            <Image />
+            <Image />
+            <Image />
+            <Image />
           </ImageBox>
         </Body>
       </Wrapper>
-      {showModal && <Modal_Result closeModal={() => setShowModal(false)} />}
+      {showModal && <Modal_Image closeModal={() => setShowModal(false)} />}
     </>
   );
 }
@@ -124,7 +94,7 @@ const ImageBox = styled.div`
   }
 `;
 
-const Input = styled.textarea`
+const Input = styled.div`
   width: 100%;
   height: 85%;
 

@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import "./index.css";
 import Landing from "./page/landing/Landing";
 import Main from "./page/Main";
+import Note from "./page/Note";
 import Write from "./page/Write";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -15,6 +16,7 @@ root.render(
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/write" element={<Write />} />
+        <Route path="/note" element={<Note />} />
       </Routes>
     </BrowserRouter>
   </div>

@@ -1,11 +1,25 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ImageExample from "../img/img_dog.svg";
+import ImageRemove from "../img/ic_removeB.svg";
 
-export default function Image() {
+export default function ImageEditable() {
+  const [isHover, setIsHover] = useState(false);
+
+  function deleteImage() {}
+
   return (
-    <ImageBox>
+    <ImageBox
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
       <Img src={ImageExample} />
+
+      {isHover && (
+        <Background>
+          <Button src={ImageRemove} onClick={deleteImage} />
+        </Background>
+      )}
     </ImageBox>
   );
 }
