@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Footer from "../../components/Footer";
-import Header from "../../components/Header";
 
 import PointImage from "../../img/Point.svg";
 import Landing1 from "./Landing1_main";
@@ -11,7 +10,6 @@ import Landing4 from "./Landing4_plan";
 export default function Landing() {
   return (
     <div className="App">
-      <Header />
       <Landing1 />
       <Landing2 />
       <Landing3 />

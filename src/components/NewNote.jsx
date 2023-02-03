@@ -10,7 +10,6 @@ export default function NewNote() {
     <Container
       onClick={() => {
         navigate("/write");
-        console.log("write");
       }}
     >
       <Text>Make new note ☺</Text>

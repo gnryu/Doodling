@@ -1,15 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Image from "../img/Logo_white.svg";
 
 export default function Footer() {
+  const navigate = useNavigate();
+
   return (
     <Background>
       <Wrapper>
         <MenuWrapper>
-          <Menu>About</Menu>
-          <Menu>Home</Menu>
-          <Menu>Terms</Menu>
+          <Menu onClick={() => navigate("/")}>Home</Menu>
+          <Menu onClick={() => navigate("/about")}>About</Menu>
+          <Menu onClick={() => navigate("/teams")}>Teams</Menu>
           <Menu>Contact</Menu>
         </MenuWrapper>
 
@@ -41,6 +44,8 @@ const Menu = styled.div`
   font-family: "NotoSans-Light";
   font-size: 14px;
   color: white;
+
+  cursor: pointer;
 `;
 
 const Logo = styled.img`
