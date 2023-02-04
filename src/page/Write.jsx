@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { convertImg } from "../api/imageService";
 import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
 import ImageEditable from "../components/ImageEditable";
@@ -20,6 +21,7 @@ export default function Write() {
 
   // Modal
   const [showModal, setShowModal] = useState(false);
+  //var img = "";
   const convert = () => {
     if (text.length <= 0) {
       alert("Text must be more than 1 word");
@@ -30,7 +32,8 @@ export default function Write() {
     // 2. 이미지 받아서 텍스트 & 이미지 모달로 넘기기
     // 3. 모달 띄우기
     // 4. text 지우기
-
+    //console.log(text);
+    //img = convertImg("flower");
     setShowModal(true);
   };
 
@@ -62,7 +65,9 @@ export default function Write() {
           </ImageBox>
         </Body>
       </Wrapper>
-      {showModal && <Modal_Result closeModal={() => setShowModal(false)} />}
+      {showModal && (
+        <Modal_Result text={text} closeModal={() => setShowModal(false)} />
+      )}
     </>
   );
 }

@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageRetry from "../img/ic_retry.svg";
 import ImageSave from "../img/ic_save.svg";
 import ImageExample from "../img/img_dog.svg";
 import ImageRemove from "../img/ic_close_primary.svg";
+import { convertImg } from "../api/imageService";
 
 export default function Modal_Result(props) {
+  //console.log(props.img);
+  const [img, setImg] = useState();
+
+  useEffect(() => {
+    const res = convertImg(props.text);
+    setImg(res);
+  }, []);
+
   function closeModal() {
     props.closeModal();
   }
@@ -18,7 +27,7 @@ export default function Modal_Result(props) {
     <Background onClick={closeModal}>
       <Modal onClick={(e) => e.stopPropagation()}>
         <ImageWrapper>
-          <Img src={ImageExample} />
+          <Img src={img} />
         </ImageWrapper>
         <Text>Dog is running</Text>
         <ButtonWrapper>
