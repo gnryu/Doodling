@@ -1,4 +1,4 @@
-from pyrebase import pyrebase
+import pyrebase
 from flask import *
 from flask_cors import CORS
 
@@ -19,45 +19,66 @@ db = firebase.database()
 app = Flask(__name__)
 CORS(app)
 
-
-@app.route('/', methods=['POST', 'GET', 'OPTIONS'])
+@app.route('/', methods=['POST', 'GET'])
 def main():
-    # if request.method == 'POST':
-    #     name = request.form['name']
-    #     users = db.child('users').get()
-    #     user_list = list((users.val()).values())
-    #     # return user_list
+    return 'hello world'
 
-    #     # if name is in DB
-    #     if name in user_list:
-    #         data = {
-    #             "isin": True,
-    #             "result": {
-    #                 "userName": name
-    #             }
-    #         }
-    #     else:
-    #         db.child('users').push(name)
-    #         data = {
-    #             "isin": False,
-    #             "result": {
-    #                 "userName": name
-    #             }
-    #         }
-    #     return jsonify(data)
-
-    # POST: request body 
+@app.route('/user/login', methods=['POST', 'GET', 'OPTIONS'])
+def login():
     if request.method == 'POST':
-        data = request.get_json()
-        print(data)
+        # json_data = {
+        #     'userName': "gina",
+        #     'userEmail': "gnnryu@gmail.com"
+        # }
+        json_data = request.get_json()
 
-    data = { "isin": False }
-    resp = jsonify(data)
+        email = json_data['userEmail']
+        name = json_data['userName']
 
-    resp.headers.add('Access-Control-Allow-Credentials', 'true')
-    resp.headers.add('Content-Type', 'application/json')
+        users = db.child('users').get()
+        if users.val() == None:
+            db.child('users').push(json_data)
+            response = {
+                "isin": False,
+                "result": {
+                    "userName": name,
+                    "userEmail": email
+                }
+            }
+        else:
+            user_list = list((users.val()).values())
+            email_list = list()
+            for i in user_list:
+                email_list.append(i['userEmail'])
 
-    return resp
+            if email in email_list:
+                # DB에 있는 userEmail에 맞는 userName을 다시 뽑아야 해
+                idx = email_list.index(email)
+                name = (user_list[idx])['userName']
+
+                response = {
+                "isin": True,
+                "result": {
+                    "userName": name,
+                    "userEmail": email
+                }
+            }
+            else:
+                db.child('users').push(json_data)
+                user_list.append(email)
+                response = {
+                    "isin": False,
+                    "result": {
+                        "userName": name,
+                        "userEmail": email
+                    }
+                }
+        # return response
+        resp = jsonify(response)
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+
 
 if __name__ == '__main__':
-    app.run(debug=True,port=8080)
+    app.run(debug=True, port=8080)
