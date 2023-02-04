@@ -1,8 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import ImageRetry from "../img/ic_retry.svg";
-import ImageSave from "../img/ic_save.svg";
-import ImageExample from "../img/img_dog.svg";
 import ImageRemove from "../img/ic_close_primary.svg";
 
 export default function Modal_Image(props) {
@@ -14,9 +11,9 @@ export default function Modal_Image(props) {
     <Background onClick={closeModal}>
       <Modal onClick={(e) => e.stopPropagation()}>
         <ImageWrapper>
-          <Img src={ImageExample} />
+          <Img src={props.img} />
         </ImageWrapper>
-        <Text>Dog is running</Text>
+        <Text>{props.text}</Text>
 
         <CloseButton src={ImageRemove} onClick={closeModal} />
       </Modal>

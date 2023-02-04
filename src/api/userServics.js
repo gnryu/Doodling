@@ -1,5 +1,4 @@
 import { async } from "@firebase/util";
-import axios from "axios";
 import API from "../axios";
 
 // 로그인 (POST)

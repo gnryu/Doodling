@@ -1,23 +1,37 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import ImageExample from "../img/img_dog.svg";
 import ImageRemove from "../img/ic_removeB.svg";
 
-export default function ImageEditable() {
+export default function ImageEditable(props) {
   const [isHover, setIsHover] = useState(false);
 
-  function deleteImage() {}
+  function deleteImage() {
+    props.deleteImage(props.idx);
+  }
+
+  function showImgModal() {
+    props.showImgModal(props.text, props.img);
+  }
 
   return (
     <ImageBox
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
+      onClick={() => {
+        showImgModal(props.text, props.img);
+      }}
     >
-      <Img src={ImageExample} />
+      <Img src={props.img} />
 
       {isHover && (
         <Background>
-          <Button src={ImageRemove} onClick={deleteImage} />
+          <Button
+            src={ImageRemove}
+            onClick={(e) => {
+              e.stopPropagation();
+              deleteImage();
+            }}
+          />
         </Background>
       )}
     </ImageBox>
@@ -40,6 +54,7 @@ const ImageBox = styled.div`
 const Img = styled.img`
   width: 100%;
   height: 100%;
+  border-radius: 15px;
 `;
 
 const Background = styled.div`
