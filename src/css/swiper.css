@@ -1,0 +1,16 @@
+.swiper {
+  width: 180px;
+  height: 100%;
+}
+
+.swiper-slide {
+  width: 180px;
+  height: 180px;
+}
+
+.swiper-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
