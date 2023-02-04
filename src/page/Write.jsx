@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { convertImg } from "../api/imageService";
 import CustomTags from "../components/CustomTags";
-import Image from "../components/Image";
+import IcSave from "../img/ic_saveP.svg";
 import ImageEditable from "../components/ImageEditable";
+import Modal_Image from "../components/Modal_Image";
 import Modal_Result from "../components/Modal_Result";
 
 export default function Write() {
-  // Date
+  // (1) Date, NoteId 받아오기
   const date = new Date().toISOString().substr(0, 10).replace("T", " ");
 
-  // Drag Text
+  // (2) Drag Text
   const [text, setText] = useState("");
   const onDragged = () => {
     const text = window.getSelection().toString();
@@ -19,7 +19,17 @@ export default function Write() {
     setText(text);
   };
 
-  // Modal
+  // (3) Save
+  var tags = [];
+  function getTags(tagList) {
+    tags = tagList;
+  }
+  const save = () => {
+    // userId, noteId, date, contents, tags, images(img, text)
+    //const tags =
+  };
+
+  // Modal(Editable)
   const [showModal, setShowModal] = useState(false);
   const convert = () => {
     if (text.length <= 0) {
@@ -30,16 +40,33 @@ export default function Write() {
     setShowModal(true);
   };
 
+  // Modal(Image)
+  const [showImg, setShowImg] = useState();
+
+  // Modal -> Show Image Modal
+  function showImgModal(text, img) {
+    const data = {
+      text: text,
+      img: img,
+    };
+    setShowImg(data);
+  }
+
   // Modal -> Close modal
   function closeModal() {
     setShowModal(false);
+    setShowImg();
   }
 
   // Modal -> Add, Delete images
   const [imageList, setImageList] = useState([]);
-  function addImage(img) {
+  function addImage(text, img) {
+    const data = {
+      text: text,
+      img: img,
+    };
     const newImageList = [...imageList];
-    newImageList.push(img);
+    newImageList.push(data);
 
     setImageList(newImageList);
   }
@@ -56,7 +83,11 @@ export default function Write() {
       <Wrapper>
         <Top>
           <DateText>{date}</DateText>
-          <CustomTags />
+          <CustomTags getTags={getTags} />
+          <SaveBox onClick={save}>
+            save
+            <img src={IcSave} style={{ width: "18px", margin: "5px 2px" }} />
+          </SaveBox>
         </Top>
 
         <Body>
@@ -72,14 +103,17 @@ export default function Write() {
             </Text>
           </TextBox>
           <ImageBox>
-            {imageList.map((img, idx) => {
+            {imageList.map((data, idx) => {
+              console.log(data);
               return (
                 <ImageEditable
                   key={idx}
-                  img={img}
+                  img={data.img}
+                  text={data.text}
                   deleteImage={() => {
                     deleteImage(idx);
                   }}
+                  showImgModal={showImgModal}
                 />
               );
             })}
@@ -88,6 +122,13 @@ export default function Write() {
       </Wrapper>
       {showModal && (
         <Modal_Result text={text} closeModal={closeModal} addImage={addImage} />
+      )}
+      {showImg != null && (
+        <Modal_Image
+          text={showImg.text}
+          img={showImg.img}
+          closeModal={closeModal}
+        />
       )}
     </>
   );
@@ -109,11 +150,27 @@ const Top = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: relative;
 `;
 
 const DateText = styled.div`
   font-family: "NotoSans-Semibold";
   font-size: 14px;
+`;
+
+const SaveBox = styled.div`
+  height: 100%;
+
+  font-family: "NotoSans-Semibold";
+  font-size: 14px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 const Body = styled.div`

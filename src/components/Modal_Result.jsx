@@ -15,11 +15,17 @@ export default function Modal_Result(props) {
     convert(props.text);
   }, []);
 
+  // Props functions
   function closeModal() {
     props.closeModal();
   }
 
-  function convert(text) {
+  function save(img) {
+    props.addImage(props.text, img);
+    closeModal();
+  }
+
+  const convert = (text) => {
     setImg();
     setIsLoading(true);
 
@@ -31,12 +37,7 @@ export default function Modal_Result(props) {
       .catch((e) => {
         console.log(e);
       });
-  }
-
-  function save(img) {
-    props.addImage(img);
-    closeModal();
-  }
+  };
 
   return (
     <Background onClick={closeModal}>

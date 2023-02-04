@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageRemove from "../img/ic_remove.svg";
 import ImageAdd from "../img/ic_add.svg";
 
-export default function CustomTags() {
+export default function CustomTags(props) {
   const [tagItem, setTagItem] = useState("");
   const [tagList, setTagList] = useState([]);
 
@@ -24,6 +24,10 @@ export default function CustomTags() {
     const filteredTagList = tagList.filter((tagItem, idx) => idx !== index);
     setTagList(filteredTagList);
   };
+
+  useEffect(() => {
+    props.getTags(tagList);
+  }, [tagList]);
 
   return (
     <Wrapper>
