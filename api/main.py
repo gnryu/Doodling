@@ -1,5 +1,6 @@
-import pyrebase
+from pyrebase import pyrebase
 from flask import *
+from flask_cors import CORS
 
 config = {
     "apiKey": "AIzaSyBQ_B4biZ838nqImon-EGXJMPqQCh4saYA",
@@ -13,69 +14,50 @@ config = {
 }
 
 firebase = pyrebase.initialize_app(config)
-
 db = firebase.database()
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/', methods=['POST', 'GET'])
+
+@app.route('/', methods=['POST', 'GET', 'OPTIONS'])
 def main():
-    # return 'hello world'
+    # if request.method == 'POST':
+    #     name = request.form['name']
+    #     users = db.child('users').get()
+    #     user_list = list((users.val()).values())
+    #     # return user_list
+
+    #     # if name is in DB
+    #     if name in user_list:
+    #         data = {
+    #             "isin": True,
+    #             "result": {
+    #                 "userName": name
+    #             }
+    #         }
+    #     else:
+    #         db.child('users').push(name)
+    #         data = {
+    #             "isin": False,
+    #             "result": {
+    #                 "userName": name
+    #             }
+    #         }
+    #     return jsonify(data)
+
+    # POST: request body 
     if request.method == 'POST':
-        name = request.form['name']
-        db.child('todo').push(name)
-        todo = db.child('todo').get()
-        todo_list = todo.val()
-        return render_template('index.html', todo=todo_list.values())
-    return render_template('index.html')
+        data = request.get_json()
+        print(data)
 
+    data = { "isin": False }
+    resp = jsonify(data)
 
-# @app.route('/user/login', methods=['POST', 'GET'])
-# def login():
-#     if request.method == 'POST':
-#         name = request.form['name']
-#         db.child('users').push(name)
-#         users = db.child('users').get()
-#         user_list = users.val()
-#         print(type(user_list))
-#         # return render_template('login.html', users=user_list)
-#         data = {
-#             "isSuccess": True,
-#             "result": {
-#                 "userName": user_list.popitem()[1]
-#             }
-#         }
-#         return jsonify(data)
-#     return render_template('login.html')
+    resp.headers.add('Access-Control-Allow-Credentials', 'true')
+    resp.headers.add('Content-Type', 'application/json')
 
-
-@app.route('/user/login', methods=['POST', 'GET'])
-def login():
-    if request.method == 'POST':
-        name = request.form['name']
-        users = db.child('users').get()
-        user_list = list((users.val()).values())
-        # return user_list
-
-        # if name is in DB
-        if name in user_list:
-            data = {
-                "isin": True,
-                "result": {
-                    "userName": name
-                }
-            }
-        else:
-            db.child('users').push(name)
-            data = {
-                "isin": False,
-                "result": {
-                    "userName": name
-                }
-            }
-        return jsonify(data)
-    return render_template('login.html')
-
+    return resp
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=8080)

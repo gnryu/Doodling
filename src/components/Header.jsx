@@ -5,6 +5,7 @@ import { auth } from "../fbase";
 import LogoIcon from "../img/Logo_with_desc.svg";
 import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
+import { login, test } from "../api/userServics";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -16,7 +17,8 @@ export default function Header() {
         const name = data.user.displayName;
         const email = data.user.email;
 
-        console.log("name is: " + name + "\nemail is: " + email);
+        login(name, email);
+        //test();
       })
       .catch((err) => {
         console.log(err);
@@ -27,7 +29,15 @@ export default function Header() {
   return (
     <HeaderWrap>
       <Wrapper>
-        <img src={LogoIcon} width={134} onClick={() => navigate("/")} />
+        <img
+          src={LogoIcon}
+          width={134}
+          onClick={() => {
+            //navigate("/")
+            //test();
+            login("y", "yy");
+          }}
+        />
 
         <NavWrapper>
           <Text onClick={() => navigate("/")}>Home</Text>

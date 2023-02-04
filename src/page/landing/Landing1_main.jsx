@@ -2,8 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Image from "../../img/MainImage.svg";
 import BackgroundImage from "../../img/background.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Landing1() {
+  const navigate = useNavigate();
+
   return (
     <Background style={{ backgroundImage: `url(${BackgroundImage})` }}>
       <Wrapper>
@@ -15,7 +18,7 @@ export default function Landing1() {
           <TextThin>
             created by <u>ChatGPT</u>
           </TextThin>
-          <Button>Get started</Button>
+          <Button onClick={() => navigate("/my")}>Get started</Button>
         </TextWrapper>
         <img src={Image} width={376} />
       </Wrapper>
