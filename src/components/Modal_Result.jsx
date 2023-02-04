@@ -4,35 +4,52 @@ import ImageRetry from "../img/ic_retry.svg";
 import ImageSave from "../img/ic_save.svg";
 import ImageExample from "../img/img_dog.svg";
 import ImageRemove from "../img/ic_close_primary.svg";
+import IcLoading from "../img/ic_loading.svg";
 import { convertImg } from "../api/imageService";
 
 export default function Modal_Result(props) {
-  //console.log(props.img);
   const [img, setImg] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const res = convertImg(props.text);
-    setImg(res);
+    convert(props.text);
   }, []);
 
   function closeModal() {
     props.closeModal();
   }
 
-  function retry() {}
+  function convert(text) {
+    setImg();
+    setIsLoading(true);
 
-  function save() {}
+    convertImg(text)
+      .then((img) => {
+        setImg(img);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  function save(img) {
+    props.addImage(img);
+    closeModal();
+  }
 
   return (
     <Background onClick={closeModal}>
       <Modal onClick={(e) => e.stopPropagation()}>
         <ImageWrapper>
-          <Img src={img} />
+          {img != null && <Img src={img} />}
+
+          {isLoading && <LoadingBar src={IcLoading} />}
         </ImageWrapper>
-        <Text>Dog is running</Text>
+        <Text>{props.text}</Text>
         <ButtonWrapper>
-          <Button src={ImageRetry} onClick={retry} />
-          <Button src={ImageSave} onClick={save} />
+          <Button src={ImageRetry} onClick={() => convert(props.text)} />
+          <Button src={ImageSave} onClick={() => save(img)} />
         </ButtonWrapper>
 
         <CloseButton src={ImageRemove} onClick={closeModal} />
@@ -78,12 +95,14 @@ const ImageWrapper = styled.div`
   border: 2px solid #2b234a;
   border-radius: 10px;
   box-sizing: border-box;
+
+  position: relative;
 `;
 
 const Img = styled.img`
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: inherit;
   object-fit: cover;
 `;
 
@@ -109,4 +128,11 @@ const CloseButton = styled.img`
   top: 0;
   right: 0;
   margin: 20px;
+`;
+
+const LoadingBar = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;

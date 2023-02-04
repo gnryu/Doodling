@@ -3,17 +3,19 @@ import styled from "styled-components";
 import ImageExample from "../img/img_dog.svg";
 import ImageRemove from "../img/ic_removeB.svg";
 
-export default function ImageEditable() {
+export default function ImageEditable(props) {
   const [isHover, setIsHover] = useState(false);
 
-  function deleteImage() {}
+  function deleteImage() {
+    props.deleteImage(props.idx);
+  }
 
   return (
     <ImageBox
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      <Img src={ImageExample} />
+      <Img src={props.img} />
 
       {isHover && (
         <Background>
@@ -40,6 +42,7 @@ const ImageBox = styled.div`
 const Img = styled.img`
   width: 100%;
   height: 100%;
+  border-radius: 15px;
 `;
 
 const Background = styled.div`

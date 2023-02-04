@@ -21,21 +21,35 @@ export default function Write() {
 
   // Modal
   const [showModal, setShowModal] = useState(false);
-  //var img = "";
   const convert = () => {
     if (text.length <= 0) {
       alert("Text must be more than 1 word");
       return;
     }
 
-    // 1. text 변환시키기
-    // 2. 이미지 받아서 텍스트 & 이미지 모달로 넘기기
-    // 3. 모달 띄우기
-    // 4. text 지우기
-    //console.log(text);
-    //img = convertImg("flower");
     setShowModal(true);
   };
+
+  // Modal -> Close modal
+  function closeModal() {
+    setShowModal(false);
+  }
+
+  // Modal -> Add, Delete images
+  const [imageList, setImageList] = useState([]);
+  function addImage(img) {
+    const newImageList = [...imageList];
+    newImageList.push(img);
+
+    setImageList(newImageList);
+  }
+
+  function deleteImage(idx) {
+    const newImageList = [...imageList];
+    newImageList.pop(idx);
+
+    setImageList(newImageList);
+  }
 
   return (
     <>
@@ -58,15 +72,22 @@ export default function Write() {
             </Text>
           </TextBox>
           <ImageBox>
-            <ImageEditable />
-            <ImageEditable />
-            <ImageEditable />
-            <ImageEditable />
+            {imageList.map((img, idx) => {
+              return (
+                <ImageEditable
+                  key={idx}
+                  img={img}
+                  deleteImage={() => {
+                    deleteImage(idx);
+                  }}
+                />
+              );
+            })}
           </ImageBox>
         </Body>
       </Wrapper>
       {showModal && (
-        <Modal_Result text={text} closeModal={() => setShowModal(false)} />
+        <Modal_Result text={text} closeModal={closeModal} addImage={addImage} />
       )}
     </>
   );
