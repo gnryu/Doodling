@@ -73,8 +73,7 @@ export default function Write() {
 
   function deleteImage(idx) {
     const newImageList = [...imageList];
-    newImageList.pop(idx);
-
+    newImageList.splice(idx, 1);
     setImageList(newImageList);
   }
 
@@ -108,11 +107,10 @@ export default function Write() {
               return (
                 <ImageEditable
                   key={idx}
+                  idx={idx}
                   img={data.img}
                   text={data.text}
-                  deleteImage={() => {
-                    deleteImage(idx);
-                  }}
+                  deleteImage={deleteImage}
                   showImgModal={showImgModal}
                 />
               );
