@@ -13,7 +13,7 @@ export const login = async (name, email) => {
   const resp = await API.post("/user/login", JSON.stringify(input));
   console.log(resp);
 
-  if (resp.data.isin) {
+  if (resp.data.isSuccess) {
     const user = {
       userName: resp.data.result.userName,
       userId: resp.data.result.userID,

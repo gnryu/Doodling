@@ -16,7 +16,7 @@ export default function Header() {
   // 로그인 상태 유지
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user != undefined) {
+    if (user !== undefined) {
       setUser(JSON.parse(user));
     }
   }, []);
