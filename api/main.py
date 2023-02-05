@@ -29,7 +29,7 @@ def main():
 @app.route('/user/login', methods=['POST', 'GET', 'OPTIONS'])
 def login():
     if request.method == 'OPTIONS':
-        resp = jsonify({"msg" :"hello world"})
+        resp = jsonify({"msg": "hello world"})
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
         resp.headers.add('Content-Type', 'application/json')
         return resp
@@ -50,8 +50,10 @@ def login():
             id = user_key[-1]
 
             response = {
-                "isin": False,
+                "isSuccess": True,
+                "message": "회원가입에 성공하였습니다.",
                 "result": {
+                    "isIn": False,
                     "userName": name,
                     "userEmail": email,
                     "userID": id
@@ -59,29 +61,31 @@ def login():
             }
         else:
             user_list = list((users.val()).values())
-            print("\n====")
-            print(user_list)
             email_list = list()
             for i in user_list:
                 email_list.append(i['userEmail'])
 
             if email in email_list:
                 # DB에 있는 userEmail에 맞는 userName을 다시 뽑아야 해
+                ### -> 근데 구글계정에서 이름을 바꾸면 바꾼 이름으로 재설정되어야 하잖아
+                ### -> 바꾼 이름으로 DB도 업데이트 해줘야 할까.. userID는 처음 설정 그대론데
+                ### -> DB 업에이트 하려면 DB에 저장되어있는 name이랑 request에서 온 name을 비교해서 업데이트 해줘야 해
                 idx = email_list.index(email)
-                name = (user_list[idx])['userName']
+                # name = (user_list[idx])['userName']
 
                 user_key = list((users.val()).keys())
                 id = user_key[idx]
-                print(id)
 
                 response = {
-                "isin": True,
-                "result": {
-                    "userName": name,
-                    "userEmail": email,
-                    "userID": id
+                    "isSuccess": True,
+                    "message": "로그인에 성공하였습니다.",
+                    "result": {
+                        "isIn": True,
+                        "userName": name,
+                        "userEmail": email,
+                        "userID": id
+                    }
                 }
-            }
             else:
                 db.child('users').push(json_data)
 
@@ -91,11 +95,13 @@ def login():
 
                 user_list.append(email)
                 response = {
-                    "isin": False,
+                    "isSuccess": True,
+                    "message": "회원가입에 성공하였습니다.",
                     "result": {
+                        "isIn": False,
                         "userName": name,
                         "userEmail": email,
-                        "uesrID": id
+                        "userID": id
                     }
                 }
         resp = jsonify(response)
@@ -130,7 +136,7 @@ def save():
                     if note == json_data:
                         response = {
                             "isSuccess": False,
-                            "errorMsg": "same note is already store",
+                            "message": "ERROR; 이미 저장되어 있는 노트입니다.",
                             "result": {}
                         }
                         resp = jsonify(response)
@@ -142,12 +148,13 @@ def save():
             db.child('users').child(id).child('notes').push(json_data)
             response = {
                 "isSuccess": True,
+                "message": "노트 저장을 성공하였습니다.",
                 "result": {}
             }
         else:
             response = {
                 "isSuccess": False,
-                "errorMsg": "not exists userID",
+                "message": "ERROR; 존재하지 않는 userID입니다.",
                 "result": {}
             }
         resp = jsonify(response)
@@ -190,12 +197,13 @@ def mynote():
             resultList = noteList
             response = {
                 "isSuccess": True,
+                "message": "노트 전체 조회에 성공하였습니다.",
                 "result": resultList
             }
         else:
             response = {
                 "isSuccess": False,
-                "errorMsg": "not exists userID",
+                "message": "ERROR; 존재하지 않는 userID입니다.",
                 "result": {}
             }
         resp = jsonify(response)
@@ -229,15 +237,16 @@ def detail():
                 noteDict = (notes.val())[noteID]
                 response = {
                     "isSuccess": True,
+                    "message": "노트 상세 조회에 성공하였습니다.",
                     "result": {
                         "noteID": noteID,
-                        "note": noteDict
+                        "detail": noteDict
                     }
                 }
             else:
                 response = {
                     "isSuccess": False,
-                    "errorMsg": "not exists noteID",
+                    "message": "ERROR; 존재하지 않는 noteID입니다.",
                     "result": {}
                 }
         else:
