@@ -133,10 +133,11 @@ export default function Write() {
 }
 
 const Wrapper = styled.div`
-  max-width: 1200px;
+  width: 1200px;
   height: calc(100vh - 85px);
   margin: 0 auto;
   padding: 0 50px;
+  margin-bottom: 50px;
 
   overflow-y: hidden;
 `;

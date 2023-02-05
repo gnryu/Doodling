@@ -14,7 +14,7 @@ export default function Landing() {
       <Landing2 />
       <Landing3 />
       <Landing4 />
-      <Footer />
+      {/* <Footer /> */}
 
       <Point src={PointImage} />
     </div>

@@ -51,6 +51,7 @@ const Text = styled.div`
 
   font-size: 18px;
   word-break: break-all;
+  color: #fff;
 `;
 
 const Date = styled.div`

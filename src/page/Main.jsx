@@ -24,6 +24,10 @@ export default function Main() {
         <Note />
         <Note />
         <Note />
+        <Note />
+        <Note />
+        <Note />
+        <Note />
       </MemoWrapper>
     </Wrapper>
   );
@@ -31,8 +35,8 @@ export default function Main() {
 
 const Wrapper = styled.div`
   max-width: 1200px;
-  height: fit-content;
   margin: 0 auto;
+  margin-bottom: 100px;
   padding: 0 50px;
 
   display: flex;
@@ -79,7 +83,6 @@ const SearchImage = styled.img`
 
 const MemoWrapper = styled.div`
   width: 100%;
-  height: 300px;
   margin-top: 30px;
 
   display: flex;
