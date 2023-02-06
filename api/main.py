@@ -193,7 +193,15 @@ def mynote():
             for note in noteKey:
                 noteID = note
                 date = ((notes.val())[note])["date"]
-                tags = ((notes.val())[note])["tags"]
+
+                # 'tags'가 note의 DB에 저장되어 있지 않으면 빈 리스트로 선언
+                keyOfNoteDict = ((notes.val())[note]).keys()
+                print(keyOfNoteDict)
+                if 'tags' not in keyOfNoteDict:
+                    tags = list()
+                else:
+                    tags = ((notes.val())[note])["tags"]
+
                 preview = str(((notes.val())[note])["content"])[:11]
                 noteDict = {
                     "noteID": noteID,
@@ -255,6 +263,14 @@ def detail():
             # noteID가 없으면, ERROR; not exists noteID
             if noteID in note_key:
                 noteDict = (notes.val())[noteID]
+
+                # 'tags'와 'images'가 note의 DB에 저장되어 있지 않으면 빈 리스트로 선언
+                keyOfNoteDict = list(noteDict.keys())
+                if 'tags' not in keyOfNoteDict:
+                    noteDict['tags'] = list()
+                if 'images' not in keyOfNoteDict:
+                    noteDict['images'] = list()
+            
                 response = {
                     "isSuccess": True,
                     "message": "노트 상세 조회에 성공하였습니다.",
