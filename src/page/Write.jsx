@@ -99,7 +99,7 @@ export default function Write() {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper id="here">
         <Top>
           <DateText>{date}</DateText>
           <CustomTags getTags={getTags} />
@@ -139,6 +139,7 @@ export default function Write() {
           </ImageBox>
         </Body>
       </Wrapper>
+
       {showModal && (
         <Modal_Result text={text} closeModal={closeModal} addImage={addImage} />
       )}
@@ -155,16 +156,13 @@ export default function Write() {
 
 const Wrapper = styled.div`
   max-width: 1200px;
-  height: calc(100vh - 85px);
+  height: calc(100vh - 100px);
+
   margin: 0 auto;
-  padding: 0 50px;
-  margin-bottom: 30px;
+  padding: 0 50px 20px 50px;
 
   overflow-y: hidden;
-
-  @media screen and (max-width: 1030px) {
-    height: 100vh;
-  }
+  overflow-x: hidden;
 `;
 
 const Top = styled.div`
@@ -199,7 +197,7 @@ const SaveBox = styled.div`
 
 const Body = styled.div`
   width: 100%;
-  height: 90%;
+  height: 80%;
   margin-top: 10px;
 
   display: flex;
@@ -213,7 +211,6 @@ const Body = styled.div`
 
 const TextBox = styled.div`
   flex: 8;
-  height: 100%;
 
   @media screen and (max-width: 1030px) {
     flex: 6;
@@ -223,11 +220,10 @@ const TextBox = styled.div`
 const ImageBox = styled.div`
   flex: 2;
   margin-left: 20px;
-  height: 100%;
 
   overflow-y: scroll;
   padding-right: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 
   display: flex;
   flex-direction: column;
@@ -244,6 +240,8 @@ const ImageBox = styled.div`
 
   @media screen and (max-width: 1030px) {
     width: 100%;
+    height: 180px;
+
     margin: 0;
     margin: 10px 0 0 0;
     flex: 4;

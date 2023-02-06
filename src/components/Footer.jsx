@@ -53,6 +53,7 @@ const MenuWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin: 0 auto;
+  margin-top: 10px;
 `;
 
 const Menu = styled.div`

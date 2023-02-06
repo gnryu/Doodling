@@ -28,8 +28,22 @@ export default function Note() {
     });
   }, [user]);
 
-  // Modal
-  const [showModal, setShowModal] = useState(false);
+  // Modal(Image)
+  const [showImg, setShowImg] = useState();
+
+  // Modal -> Show Image Modal
+  function showImgModal(text, img) {
+    const data = {
+      text: text,
+      img: img,
+    };
+    setShowImg(data);
+  }
+
+  // Modal -> Close modal
+  function closeModal() {
+    setShowImg();
+  }
 
   // 노트 삭제 API
   function deleteNote() {}
@@ -51,14 +65,22 @@ export default function Note() {
               </TextBox>
               <ImageBox>
                 {note.images.map((item, idx) => {
-                  return <Image item={item} key={idx} />;
+                  return (
+                    <Image item={item} key={idx} showImgModal={showImgModal} />
+                  );
                 })}
               </ImageBox>
             </Body>
           </>
         )}
       </Wrapper>
-      {showModal && <Modal_Image closeModal={() => setShowModal(false)} />}
+      {showImg != null && (
+        <Modal_Image
+          text={showImg.text}
+          img={showImg.img}
+          closeModal={closeModal}
+        />
+      )}
     </>
   );
 }
@@ -66,8 +88,9 @@ export default function Note() {
 const Wrapper = styled.div`
   max-width: 1200px;
   height: calc(100vh - 100px);
+
   margin: 0 auto;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   padding: 0 50px;
 
   overflow-y: hidden;

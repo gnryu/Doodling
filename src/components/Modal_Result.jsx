@@ -62,12 +62,13 @@ export default function Modal_Result(props) {
 const Background = styled.div`
   width: 100%;
   height: 100%;
-  border: 1px solid green;
   background: rgba(0, 0, 0, 0.7);
 
   position: absolute;
   top: 0;
   z-index: 10;
+
+  overflow-x: hidden;
 
   display: flex;
   justify-content: center;

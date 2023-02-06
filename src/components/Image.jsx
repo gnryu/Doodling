@@ -3,10 +3,23 @@ import styled from "styled-components";
 import ImageExample from "../img/img_dog.svg";
 
 export default function Image(props) {
+  const [isHover, setIsHover] = useState(false);
+
+  function showImgModal() {
+    props.showImgModal(props.item.text, props.item.img);
+  }
+
   return (
-    <ImageBox>
-      <Img src={props.item.img} />
-    </ImageBox>
+    <>
+      <ImageBox
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        <Img src={props.item.img} />
+
+        {isHover && <Background onClick={showImgModal} />}
+      </ImageBox>
+    </>
   );
 }
 
