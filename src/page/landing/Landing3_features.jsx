@@ -4,24 +4,33 @@ import Swiper_Features from "./Swiper_Features";
 
 export default function Landing3() {
   return (
-    <Wrapper>
-      <Title>Features</Title>
-      <Description>
-        : Our 3 main features: convert, change, own notepad
-      </Description>
-      <Features>
-        <Swiper_Features />
-      </Features>
-    </Wrapper>
+    <Background>
+      <Wrapper>
+        <Title>Features</Title>
+        <Description>
+          : Our 3 main features: convert, change, own notepad
+        </Description>
+        <Features>
+          <Swiper_Features />
+        </Features>
+      </Wrapper>
+    </Background>
   );
 }
 
+const Background = styled.div`
+  margin-top: 100px;
+  background-color: #fff;
+  height: 580px;
+  display: flex;
+  align-items: center;
+`;
+
 const Wrapper = styled.div`
-  width: 1000px;
+  width: 800px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
   color: #2b234a;
 `;
 
@@ -33,6 +42,7 @@ const Title = styled.div`
 const Description = styled.div`
   font-family: "NotoSans-Light";
   font-size: 24px;
+  z-index: 10;
 `;
 
 const Features = styled.div`

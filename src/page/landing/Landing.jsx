@@ -9,7 +9,7 @@ import Landing4 from "./Landing4_plan";
 
 export default function Landing() {
   return (
-    <div style={{ width: "100%", overflowX: "hidden" }}>
+    <div style={{ width: "100%", overflowX: "hidden", overflowY: "hidden" }}>
       <Landing1 />
       <Landing2 />
       <Landing3 />
@@ -21,8 +21,8 @@ export default function Landing() {
 }
 
 const Point = styled.img`
-  width: 30%;
+  width: 35%;
   position: absolute;
   right: 0;
-  top: 900px;
+  top: 1200px;
 `;

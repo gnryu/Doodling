@@ -50,8 +50,13 @@ export default function Landing4() {
 
 const Background = styled.div`
   margin-top: 100px;
-  padding: 20px 0;
-  background-color: #f8f8f8;
+  padding: 100px 0;
+
+  background-color: #efefef;
+
+  height: 600px;
+  display: flex;
+  align-items: center;
 `;
 
 const Wrapper = styled.div`

@@ -12,14 +12,7 @@ export default function Swiper_Features() {
   SwiperCore.use([Autoplay, Pagination]);
 
   return (
-    <Swiper
-      loop={true}
-      autoplay={{
-        delay: 2000,
-        disableOnInteraction: false,
-      }}
-      pagination={true}
-    >
+    <Swiper loop={true} pagination={true}>
       <SwiperSlide>
         <SlideWrapper>
           <img src={ImageWrite} width={250} />
