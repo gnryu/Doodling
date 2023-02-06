@@ -175,12 +175,12 @@ def mynote():
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
             
-            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 빈 배열 반환 + "해당 userID에 노트가 존재하지 않습니다."
             if notes.val() == None:
                 response = {
-                    "isSuccess": False,
-                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
-                    "result": {}
+                    "isSuccess": True,
+                    "message": "해당 userID에 노트가 존재하지 않습니다.",
+                    "result": list()
                 }
                 resp = jsonify(response)
                 resp.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -372,7 +372,9 @@ def search():
     if request.method == 'GET':
         userID = request.args.get('userID')
         searchWord = request.args.get('searchWord')
-        searchWord = searchWord.lower()
+        
+        # 검색하기 위해 입력한 태그를 소문자로 바꾸기 + 공백 제거
+        searchWord = (searchWord.lower()).replace(" ", "")
 
         users = db.child('users').get()
         user_key = list((users.val()).keys())
@@ -381,12 +383,12 @@ def search():
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
             
-            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 빈 배열 반환 + "해당 userID에 노트가 존재하지 않습니다."
             if notes.val() == None:
                 response = {
-                    "isSuccess": False,
-                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
-                    "result": {}
+                    "isSuccess": True,
+                    "message": "해당 userID에 노트가 존재하지 않습니다.",
+                    "result": list()
                 }
                 resp = jsonify(response)
                 resp.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -398,10 +400,10 @@ def search():
             for i in notes.val():
                 noteTags = ((notes.val())[i])['tags']
                 
-                # 모든 노트 태그를 소문자로 바꾸기
+                # 모든 노트 태그를 소문자로 바꾸기 + 공백 제거
                 lowerNoteTags = list()
                 for j in noteTags:
-                    j = str(j).lower()
+                    j = (str(j).lower()).replace(" ", "")
                     lowerNoteTags.append(j)
                 
                 eachNote = {
@@ -419,9 +421,9 @@ def search():
             # 해당 userID의 노트들에 searchWord가 없으면, "ERROR; searchWord가 태그인 노트는 존재하지 않습니다."
             if len(searchNoteID) == 0:
                 response = {
-                    "isSuccess": False,
-                    "message": f"ERROR; \'{searchWord}\'이 태그인 노트는 존재하지 않습니다.",
-                    "result": {}
+                    "isSuccess": True,
+                    "message": f"\'{searchWord}\'이 태그인 노트는 존재하지 않습니다.",
+                    "result": list()
                 }
                 resp = jsonify(response)
                 resp.headers.add('Access-Control-Allow-Credentials', 'true')
