@@ -165,12 +165,6 @@ def mynote():
         resp.headers.add('Content-Type', 'application/json')
         return resp
 
-    if request.method == 'OPTIONS':
-        resp = jsonify({"msg": "hello world"})
-        resp.headers.add('Access-Control-Allow-Credentials', 'true')
-        resp.headers.add('Content-Type', 'application/json')
-        return resp
-    
     if request.method == 'GET':
         userID = request.args.get('userID')
 
@@ -199,7 +193,15 @@ def mynote():
             for note in noteKey:
                 noteID = note
                 date = ((notes.val())[note])["date"]
-                tags = ((notes.val())[note])["tags"]
+
+                # 'tags'가 note의 DB에 저장되어 있지 않으면 빈 리스트로 선언
+                keyOfNoteDict = ((notes.val())[note]).keys()
+                print(keyOfNoteDict)
+                if 'tags' not in keyOfNoteDict:
+                    tags = list()
+                else:
+                    tags = ((notes.val())[note])["tags"]
+
                 preview = str(((notes.val())[note])["content"])[:11]
                 noteDict = {
                     "noteID": noteID,
@@ -232,12 +234,8 @@ def detail():
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
         resp.headers.add('Content-Type', 'application/json')
         return resp
-
-    
+        
     if request.method == 'GET':
-        userID = request.args.get('userID')
-        noteID = request.args.get('noteID')
-
         userID = request.args.get('userID')
         noteID = request.args.get('noteID')
 
@@ -265,6 +263,14 @@ def detail():
             # noteID가 없으면, ERROR; not exists noteID
             if noteID in note_key:
                 noteDict = (notes.val())[noteID]
+
+                # 'tags'와 'images'가 note의 DB에 저장되어 있지 않으면 빈 리스트로 선언
+                keyOfNoteDict = list(noteDict.keys())
+                if 'tags' not in keyOfNoteDict:
+                    noteDict['tags'] = list()
+                if 'images' not in keyOfNoteDict:
+                    noteDict['images'] = list()
+            
                 response = {
                     "isSuccess": True,
                     "message": "노트 상세 조회에 성공하였습니다.",
@@ -290,14 +296,14 @@ def detail():
         resp.headers.add('Content-Type', 'application/json')
         return resp
         
-@app.route('/note/delete', methods=['GET', 'DELETE', 'OPTIONS'])
+@app.route('/note/delete', methods=['GET', 'OPTIONS', 'DELETE'])
 def delete():
     if request.method == 'OPTIONS':
-        resp = jsonify({"msg": "hello world"})
+        resp = jsonify({"msg" :"hello world"})
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
         resp.headers.add('Content-Type', 'application/json')
         return resp
-    
+        
     if request.method == 'GET':
         resp = jsonify({"msg" :"hello world"})
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -308,14 +314,48 @@ def delete():
         userID = request.args.get('userID')
         noteID = request.args.get('noteID')
 
-        note_to_delete = db.child('users').child(userID).child('notes').child(noteID)
-        note_to_delete.set(None)
-        
-        response = {
-            "isSuccess": True,
-            "message": "노트 삭제를 성공하였습니다.",
-            "result": {}
-        }
+        users = db.child('users').get()
+        user_key = list((users.val()).keys())
+
+        # userID가 없으면, ERROR; not exists userID
+        if userID in user_key:
+            notes = db.child('users').child(userID).child('notes').get()
+
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
+            if notes.val() == None:
+                response = {
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
+                    "result": {}
+                }
+                resp = jsonify(response)
+                resp.headers.add('Access-Control-Allow-Credentials', 'true')
+                resp.headers.add('Content-Type', 'application/json')
+                return resp
+            
+            note_key = list((notes.val()).keys())
+
+            # noteID가 없으면, ERROR; not exists noteID
+            if noteID in note_key:
+                note_to_delete = db.child('users').child(userID).child('notes').child(noteID)
+                note_to_delete.set(None)
+                response = {
+                    "isSuccess": True,
+                    "message": "노트 삭제를 성공하였습니다.",
+                    "result": {}
+                }
+            else:
+                response = {
+                    "isSuccess": False,
+                    "message": "ERROR; 존재하지 않는 noteID입니다.",
+                    "result": {}
+                }
+        else:
+            response = {
+                "isSuccess": False,
+                "message": "ERROR; 존재하지 않는 userID입니다.",
+                "result": {}
+            }
         resp = jsonify(response)
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
         resp.headers.add('Content-Type', 'application/json')
@@ -323,20 +363,103 @@ def delete():
 
 @app.route('/tag/search', methods=['POST', 'GET', 'OPTIONS'])
 def search():
-    if request.method == 'GET':
-        ### TEST EXAMPLE
-        json_data = {
-            "userID": "-NNWnSAxkfoNrdg1_FGa",
-            "searchWord": "computer science"
-        }
-        # json_data = request.get_json()
+    if request.method == 'OPTIONS':
+        resp = jsonify({"msg" :"hello world"})
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
 
-        userID = json_data['userID']
-        searchWord = json_data['searchWord']
+    if request.method == 'GET':
+        userID = request.args.get('userID')
+        searchWord = request.args.get('searchWord')
+        searchWord = searchWord.lower()
+
+        users = db.child('users').get()
+        user_key = list((users.val()).keys())
 
         # userID가 없으면, ERROR; not exists userID
-        # searchWord가 없으면, ERROR; not exists tag
+        if userID in user_key:
+            notes = db.child('users').child(userID).child('notes').get()
+            
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
+            if notes.val() == None:
+                response = {
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
+                    "result": {}
+                }
+                resp = jsonify(response)
+                resp.headers.add('Access-Control-Allow-Credentials', 'true')
+                resp.headers.add('Content-Type', 'application/json')
+                return resp
 
-        
+            # {"noteID": "", "tags": []}를 요소로 가지는 noteList 만들기
+            noteList = list()
+            for i in notes.val():
+                noteTags = ((notes.val())[i])['tags']
+                
+                # 모든 노트 태그를 소문자로 바꾸기
+                lowerNoteTags = list()
+                for j in noteTags:
+                    j = str(j).lower()
+                    lowerNoteTags.append(j)
+                
+                eachNote = {
+                    "noteID": i,
+                    "tags": lowerNoteTags
+                }
+                noteList.append(eachNote)
+
+            # 검색하려는 태그를 포함하는 노트들의 noteID만을 요소로 가지는 searchNoteID 리스트 만들기
+            searchNoteID = list()
+            for i in noteList:
+                if searchWord in i['tags']:
+                    searchNoteID.append(i['noteID'])
+            
+            # 해당 userID의 노트들에 searchWord가 없으면, "ERROR; searchWord가 태그인 노트는 존재하지 않습니다."
+            if len(searchNoteID) == 0:
+                response = {
+                    "isSuccess": False,
+                    "message": f"ERROR; \'{searchWord}\'이 태그인 노트는 존재하지 않습니다.",
+                    "result": {}
+                }
+                resp = jsonify(response)
+                resp.headers.add('Access-Control-Allow-Credentials', 'true')
+                resp.headers.add('Content-Type', 'application/json')
+                return resp
+
+            # response의 result에 들어갈 {검색하여 얻은 노트들의 정보}를 딕셔너리 형태로 저장
+            # response의 result에는 딕셔너리 형태인 각 노트들의 정보를 요소로 하는 리스트가 들어가도록
+            searchResult = list()
+            for i in searchNoteID:
+                noteID = i
+                date = ((notes.val())[i])["date"]
+                tags = ((notes.val())[i])["tags"]
+                preview = str(((notes.val())[i])["content"])[:11]
+                noteDict = {
+                    "noteID": noteID,
+                    "date": date,
+                    "tags": tags,
+                    "preview": preview
+                }
+                searchResult.append(noteDict)
+            resultList = searchResult
+
+            response = {
+                "isSuccess": True,
+                "message": f"\'{searchWord}\'을 검색하였습니다.",
+                "result": resultList
+            }
+        else:
+            response = {
+                "isSuccess": False,
+                "message": "ERROR; 존재하지 않는 userID입니다.",
+                "result": {}
+            }
+        resp = jsonify(response)
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
