@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 export default function Note(props) {
   const navigate = useNavigate();
 
-  console.log("Note - " + props.note);
   const date = props.note.date;
   const prev = props.note.preview;
   const tags = props.note.tags;
@@ -50,6 +49,14 @@ const Container = styled.div`
 
   color: #ffffff;
   font-family: "NotoSans-Regular";
+
+  @media screen and (max-width: 930px) {
+    width: calc((100% - 16px) / 3);
+  }
+
+  @media screen and (max-width: 700px) {
+    width: calc((100% - 16px) / 2);
+  }
 `;
 
 const Text = styled.div`

@@ -9,12 +9,11 @@ import Landing4 from "./Landing4_plan";
 
 export default function Landing() {
   return (
-    <div className="App">
+    <div style={{ width: "100%", overflowX: "hidden" }}>
       <Landing1 />
       <Landing2 />
       <Landing3 />
       <Landing4 />
-      {/* <Footer /> */}
 
       <Point src={PointImage} />
     </div>

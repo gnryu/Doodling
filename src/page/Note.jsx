@@ -8,6 +8,7 @@ import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
 import Modal_Image from "../components/Modal_Image";
 import Tags from "../components/Tags";
+import IcRemove from "../img/ic_remove (1).svg";
 
 export default function Note() {
   // 전달받은 NoteID
@@ -30,6 +31,9 @@ export default function Note() {
   // Modal
   const [showModal, setShowModal] = useState(false);
 
+  // 노트 삭제 API
+  function deleteNote() {}
+
   return (
     <>
       <Wrapper>
@@ -38,6 +42,7 @@ export default function Note() {
             <Top>
               <DateText>{note.date}</DateText>
               <Tags tags={note.tags} />
+              <DeleteImg src={IcRemove} onClick={deleteNote} />
             </Top>
 
             <Body>
@@ -60,7 +65,7 @@ export default function Note() {
 
 const Wrapper = styled.div`
   max-width: 1200px;
-  height: calc(100vh - 85px);
+  height: calc(100vh - 100px);
   margin: 0 auto;
   margin-bottom: 50px;
   padding: 0 50px;
@@ -75,11 +80,21 @@ const Top = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: relative;
 `;
 
 const DateText = styled.div`
   font-family: "NotoSans-Semibold";
   font-size: 14px;
+`;
+
+const DeleteImg = styled.img`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  width: 24px;
+  cursor: pointer;
 `;
 
 const Body = styled.div`
@@ -89,11 +104,20 @@ const Body = styled.div`
 
   display: flex;
   flex-direction: row;
+
+  @media screen and (max-width: 1030px) {
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 const TextBox = styled.div`
   flex: 8;
   height: 100%;
+
+  @media screen and (max-width: 1030px) {
+    flex: 5;
+  }
 `;
 
 const ImageBox = styled.div`
@@ -105,6 +129,9 @@ const ImageBox = styled.div`
   padding-right: 10px;
   margin-bottom: 10px;
 
+  display: flex;
+  flex-direction: column;
+
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -113,6 +140,17 @@ const ImageBox = styled.div`
     height: 10px;
     background-color: #ececec;
     border-radius: 20px;
+  }
+
+  @media screen and (max-width: 1030px) {
+    width: 100%;
+    margin: 0;
+    margin: 10px 0 0 0;
+    flex: 5;
+
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
   }
 `;
 

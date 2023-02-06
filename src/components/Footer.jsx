@@ -13,6 +13,7 @@ export default function Footer() {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    navigate("/");
   };
 
   return (

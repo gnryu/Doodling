@@ -91,7 +91,6 @@ export default function Write() {
       images: imageList,
     };
 
-    console.log(note);
     saveNote(note).then((resp) => {
       console.log("write - " + resp.data);
       navigate("/my");
@@ -155,13 +154,17 @@ export default function Write() {
 }
 
 const Wrapper = styled.div`
-  width: 1200px;
+  max-width: 1200px;
   height: calc(100vh - 85px);
   margin: 0 auto;
   padding: 0 50px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 
   overflow-y: hidden;
+
+  @media screen and (max-width: 1030px) {
+    height: 100vh;
+  }
 `;
 
 const Top = styled.div`
@@ -201,11 +204,20 @@ const Body = styled.div`
 
   display: flex;
   flex-direction: row;
+
+  @media screen and (max-width: 1030px) {
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 const TextBox = styled.div`
   flex: 8;
   height: 100%;
+
+  @media screen and (max-width: 1030px) {
+    flex: 6;
+  }
 `;
 
 const ImageBox = styled.div`
@@ -217,6 +229,9 @@ const ImageBox = styled.div`
   padding-right: 10px;
   margin-bottom: 10px;
 
+  display: flex;
+  flex-direction: column;
+
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -225,6 +240,17 @@ const ImageBox = styled.div`
     height: 10px;
     background-color: #ececec;
     border-radius: 20px;
+  }
+
+  @media screen and (max-width: 1030px) {
+    width: 100%;
+    margin: 0;
+    margin: 10px 0 0 0;
+    flex: 4;
+
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
   }
 `;
 

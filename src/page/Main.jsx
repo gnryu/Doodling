@@ -20,7 +20,6 @@ export default function Main() {
     getNotes(user.userID).then((notesO) => {
       const notesJS = JSON.stringify(notesO);
       const notes = JSON.parse(notesJS);
-      console.log("h " + notes);
 
       setNoteList(notes);
     });
@@ -37,17 +36,6 @@ export default function Main() {
         {noteList.map((note, index) => {
           return <Note key={index} note={note} />;
         })}
-        {/* <Note />
-        <Note />
-        <Note />
-        <Note />
-        <Note />
-        <Note />
-        <Note />
-        <Note />
-        <Note />
-        <Note />
-        <Note /> */}
       </MemoWrapper>
     </Wrapper>
   );
@@ -55,6 +43,7 @@ export default function Main() {
 
 const Wrapper = styled.div`
   max-width: 1200px;
+  min-height: 400px;
   margin: 0 auto;
   margin-bottom: 100px;
   padding: 0 50px;
@@ -62,6 +51,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 `;
 
 const SearchWrapper = styled.div`

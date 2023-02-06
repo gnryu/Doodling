@@ -21,6 +21,12 @@ const ImageBox = styled.div`
   box-sizing: border-box;
 
   position: relative;
+
+  @media screen and (max-width: 1030px) {
+    margin-bottom: 0;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
 `;
 
 const Img = styled.img`
