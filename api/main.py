@@ -66,12 +66,7 @@ def login():
                 email_list.append(i['userEmail'])
 
             if email in email_list:
-                # DB에 있는 userEmail에 맞는 userName을 다시 뽑아야 해
-                ### -> 근데 구글계정에서 이름을 바꾸면 바꾼 이름으로 재설정되어야 하잖아
-                ### -> 바꾼 이름으로 DB도 업데이트 해줘야 할까.. userID는 처음 설정 그대론데
-                ### -> DB 업에이트 하려면 DB에 저장되어있는 name이랑 request에서 온 name을 비교해서 업데이트 해줘야 해
                 idx = email_list.index(email)
-                # name = (user_list[idx])['userName']
 
                 user_key = list((users.val()).keys())
                 id = user_key[idx]
@@ -252,7 +247,7 @@ def detail():
         else:
             response = {
                 "isSuccess": False,
-                "errorMsg": "not exists userID",
+                "message": "ERROR; 존재하지 않는 userID입니다.",
                 "result": {}
             }
         resp = jsonify(response)
