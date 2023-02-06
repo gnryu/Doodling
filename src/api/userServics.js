@@ -16,7 +16,7 @@ export const login = async (name, email) => {
   if (resp.data.isSuccess) {
     const user = {
       userName: resp.data.result.userName,
-      userId: resp.data.result.userID,
+      userID: resp.data.result.userID,
     };
 
     return user;

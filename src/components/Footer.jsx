@@ -40,6 +40,7 @@ export default function Footer() {
 const Background = styled.div`
   padding: 20px;
   background-color: #2b234a;
+  z-index: 10;
 `;
 
 const Wrapper = styled.div`

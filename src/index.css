@@ -8,12 +8,6 @@
   width: 1200px;
 }
 
-.App {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-}
-
 /* Font */
 @font-face {
   font-family: "NotoSans-Medium";

@@ -1,33 +1,17 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import CustomTags from "../components/CustomTags";
 import IcSave from "../img/ic_saveP.svg";
 import ImageEditable from "../components/ImageEditable";
 import Modal_Image from "../components/Modal_Image";
 import Modal_Result from "../components/Modal_Result";
+import { useRecoilValue } from "recoil";
+import { userState } from "../atom/User";
+import { saveNote } from "../api/noteService";
+import { useNavigate } from "react-router-dom";
 
 export default function Write() {
-  // (1) Date, NoteId 받아오기
-  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
-
-  // (2) Drag Text
-  const [text, setText] = useState("");
-  const onDragged = () => {
-    const text = window.getSelection().toString();
-    if (text.length <= 0) return;
-
-    setText(text);
-  };
-
-  // (3) Save
-  var tags = [];
-  function getTags(tagList) {
-    tags = tagList;
-  }
-  const save = () => {
-    // userId, noteId, date, contents, tags, images(img, text)
-    //const tags =
-  };
+  const navigate = useNavigate();
 
   // Modal(Editable)
   const [showModal, setShowModal] = useState(false);
@@ -77,6 +61,43 @@ export default function Write() {
     setImageList(newImageList);
   }
 
+  // (1) Date, NoteId 받아오기
+  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
+
+  // (2) Drag Text
+  const [text, setText] = useState("");
+  const onDragged = () => {
+    const text = window.getSelection().toString();
+    if (text.length <= 0) return;
+
+    setText(text);
+  };
+
+  // (3) Save
+  const [tags, setTags] = useState([]);
+  const contentRef = useRef();
+  const user = useRecoilValue(userState);
+  function getTags(tagList) {
+    setTags(tagList);
+  }
+
+  const save = () => {
+    // userId, noteId, date, contents, tags, images(img, text)
+    const note = {
+      userID: user.userID,
+      date: date,
+      tags: tags,
+      content: contentRef.current.value,
+      images: imageList,
+    };
+
+    console.log(note);
+    saveNote(note).then((resp) => {
+      console.log("write - " + resp.data);
+      navigate("/main");
+    });
+  };
+
   return (
     <>
       <Wrapper>
@@ -93,6 +114,7 @@ export default function Write() {
           <TextBox>
             <Input
               type="text"
+              ref={contentRef}
               placeholder="Write note..."
               onMouseUp={() => onDragged()}
             />
