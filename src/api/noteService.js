@@ -17,10 +17,10 @@ export const saveNote = async (note) => {
 export const deleteNote = async (userID, noteID) => {
   console.log(userID, noteID);
   const res = await API.delete("/note/delete", {
-    data: JSON.stringify({
+    params: {
       userID: userID,
       noteID: noteID,
-    }),
+    },
   })
     .then((resp) => {
       console.log(resp);

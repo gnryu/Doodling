@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { getNote } from "../api/userServics";
@@ -12,6 +12,8 @@ import Tags from "../components/Tags";
 import IcRemove from "../img/ic_remove (1).svg";
 
 export default function Note() {
+  const navigate = useNavigate();
+
   // 전달받은 NoteID
   const { state } = useLocation();
   const user = useRecoilValue(userState);
@@ -50,6 +52,7 @@ export default function Note() {
   function delNote() {
     deleteNote(user.userID, state).then((resp) => {
       console.log("Note - " + resp);
+      navigate("/my");
     });
   }
 
