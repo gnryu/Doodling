@@ -14,5 +14,21 @@ export const saveNote = async (note) => {
 };
 
 // 노트 삭제하기 (DELETE)
+export const deleteNote = async (userID, noteID) => {
+  console.log(userID, noteID);
+  const res = await API.delete("/note/delete", {
+    data: JSON.stringify({
+      userID: userID,
+      noteID: noteID,
+    }),
+  })
+    .then((resp) => {
+      console.log(resp);
+      return resp;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 
 // 태그 검색하기 (GET)

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { getNote } from "../api/userServics";
+import { deleteNote } from "../api/noteService";
 import { userState } from "../atom/User";
 import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
@@ -46,7 +47,11 @@ export default function Note() {
   }
 
   // 노트 삭제 API
-  function deleteNote() {}
+  function delNote() {
+    deleteNote(user.userID, state).then((resp) => {
+      console.log("Note - " + resp);
+    });
+  }
 
   return (
     <>
@@ -56,7 +61,7 @@ export default function Note() {
             <Top>
               <DateText>{note.date}</DateText>
               <Tags tags={note.tags} />
-              <DeleteImg src={IcRemove} onClick={deleteNote} />
+              <DeleteImg src={IcRemove} onClick={delNote} />
             </Top>
 
             <Body>

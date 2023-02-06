@@ -232,12 +232,7 @@ def detail():
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
         resp.headers.add('Content-Type', 'application/json')
         return resp
-        
-    if request.method == 'OPTIONS':
-        resp = jsonify({"msg": "hello world"})
-        resp.headers.add('Access-Control-Allow-Credentials', 'true')
-        resp.headers.add('Content-Type', 'application/json')
-        return resp
+
     
     if request.method == 'GET':
         userID = request.args.get('userID')
@@ -295,8 +290,14 @@ def detail():
         resp.headers.add('Content-Type', 'application/json')
         return resp
         
-@app.route('/note/delete', methods=['GET', 'DELETE'])
+@app.route('/note/delete', methods=['GET', 'DELETE', 'OPTIONS'])
 def delete():
+    if request.method == 'OPTIONS':
+        resp = jsonify({"msg": "hello world"})
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+    
     if request.method == 'GET':
         resp = jsonify({"msg" :"hello world"})
         resp.headers.add('Access-Control-Allow-Credentials', 'true')

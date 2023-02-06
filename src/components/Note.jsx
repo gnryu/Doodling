@@ -3,6 +3,9 @@ import styled from "styled-components";
 import TagWhite from "./TagWhite";
 import ImageDelete from "../img/ic_delete.svg";
 import { useNavigate } from "react-router-dom";
+import { deleteNote } from "../api/noteService";
+import { useRecoilValue } from "recoil";
+import { userState } from "../atom/User";
 
 export default function Note(props) {
   const navigate = useNavigate();
@@ -13,7 +16,12 @@ export default function Note(props) {
   const noteID = props.note.noteID;
 
   // 노트 삭제하기 API
-  function deleteNote() {}
+  const user = useRecoilValue(userState);
+  function delNote() {
+    deleteNote(user.userID, noteID).then((resp) => {
+      console.log("Note - " + resp);
+    });
+  }
 
   return (
     <Container
@@ -29,7 +37,13 @@ export default function Note(props) {
         })}
       </TagContainter>
 
-      <Image src={ImageDelete} onClick={deleteNote} />
+      <Image
+        src={ImageDelete}
+        onClick={(e) => {
+          e.stopPropagation();
+          delNote();
+        }}
+      />
     </Container>
   );
 }
@@ -106,4 +120,6 @@ const Image = styled.img`
   top: 0;
   right: 0;
   margin: 10px;
+
+  cursor: pointer;
 `;
