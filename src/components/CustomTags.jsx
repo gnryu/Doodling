@@ -62,6 +62,24 @@ const Wrapper = styled.div`
 
   display: flex;
   flex-direction: row;
+
+  @media screen and (max-width: 1030px) {
+    width: 400px;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    width: 200px;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const TagBox = styled.div`

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function TagWhite() {
-  return <Containter>#dog</Containter>;
+export default function TagWhite(props) {
+  return <Containter>#{props.tag}</Containter>;
 }
 
 const Containter = styled.div`

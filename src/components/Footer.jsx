@@ -1,10 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { userState } from "../atom/User";
 import Image from "../img/Logo_white.svg";
 
 export default function Footer() {
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
+
+  // 로그아웃
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   return (
     <Background>
@@ -14,6 +24,12 @@ export default function Footer() {
           <Menu onClick={() => navigate("/about")}>About</Menu>
           <Menu onClick={() => navigate("/teams")}>Teams</Menu>
           <Menu>Contact</Menu>
+
+          {user != null && (
+            <Menu style={{ marginLeft: "5px" }} onClick={logout}>
+              | &nbsp;&nbsp;&nbsp;&nbsp;Logout
+            </Menu>
+          )}
         </MenuWrapper>
 
         <Logo src={Image} width={100} />
@@ -25,6 +41,7 @@ export default function Footer() {
 const Background = styled.div`
   padding: 20px;
   background-color: #2b234a;
+  z-index: 10;
 `;
 
 const Wrapper = styled.div`
@@ -33,17 +50,18 @@ const Wrapper = styled.div`
 `;
 
 const MenuWrapper = styled.div`
-  width: 300px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   margin: 0 auto;
+  margin-top: 10px;
 `;
 
 const Menu = styled.div`
   font-family: "NotoSans-Light";
   font-size: 14px;
   color: white;
+  margin: 0 15px;
+  text-align: center;
 
   cursor: pointer;
 `;

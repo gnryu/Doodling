@@ -1,15 +1,28 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { auth } from "../fbase";
 import LogoIcon from "../img/Logo_with_desc.svg";
 import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
-import { login, test } from "../api/userServics";
+import { login } from "../api/userServics";
+import { useRecoilState } from "recoil";
+import { userState } from "../atom/User";
 
 export default function Header() {
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
 
+  // 로그인 상태 유지
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user !== undefined) {
+      setUser(JSON.parse(user));
+      console.log("자동 로그인 - " + user);
+    }
+  }, []);
+
+  // 구글 로그인
   function signInGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -17,8 +30,11 @@ export default function Header() {
         const name = data.user.displayName;
         const email = data.user.email;
 
-        login(name, email);
-        //test();
+        login(name, email).then((user) => {
+          const userJson = JSON.stringify(user);
+          localStorage.setItem("user", userJson);
+          setUser(user);
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -32,20 +48,27 @@ export default function Header() {
         <img
           src={LogoIcon}
           width={134}
+          style={{ cursor: "pointer" }}
           onClick={() => {
-            //navigate("/")
-            //test();
-            login("y", "yy");
+            navigate("/");
           }}
         />
 
         <NavWrapper>
-          <Text onClick={() => navigate("/")}>Home</Text>
-          <Text onClick={() => navigate("/about")}>About</Text>
-          <Button onClick={signInGoogle}>Sign in</Button>
+          {user == null && (
+            <>
+              <Text onClick={() => navigate("/")}>Home</Text>
+              <Text onClick={() => navigate("/about")}>About</Text>
+              <Button onClick={signInGoogle}>Sign in</Button>
+            </>
+          )}
 
-          {/* <Text style={{ marginRight: "15px" }}>Gina</Text>
-          <UserImage src={IcUser} /> */}
+          {user != null && (
+            <>
+              <Text style={{ marginRight: "15px" }}>{user.userName}</Text>
+              <UserImage src={IcUser} />
+            </>
+          )}
         </NavWrapper>
       </Wrapper>
     </HeaderWrap>
@@ -111,4 +134,5 @@ const Button = styled.div`
 
 const UserImage = styled.img`
   height: 26px;
+  cursor: pointer;
 `;

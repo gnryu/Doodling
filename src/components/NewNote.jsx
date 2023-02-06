@@ -30,6 +30,13 @@ const Container = styled.div`
 
   box-sizing: border-box;
   position: relative;
+
+  @media screen and (max-width: 930px) {
+    width: calc((100% - 16px) / 3);
+  }
+  @media screen and (max-width: 700px) {
+    width: calc((100% - 16px) / 2);
+  }
 `;
 
 const Text = styled.div`

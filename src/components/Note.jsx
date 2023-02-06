@@ -2,22 +2,48 @@ import React from "react";
 import styled from "styled-components";
 import TagWhite from "./TagWhite";
 import ImageDelete from "../img/ic_delete.svg";
+import { useNavigate } from "react-router-dom";
+import { deleteNote } from "../api/noteService";
+import { useRecoilValue } from "recoil";
+import { userState } from "../atom/User";
 
-export default function Note() {
+export default function Note(props) {
+  const navigate = useNavigate();
+
+  const date = props.note.date;
+  const prev = props.note.preview;
+  const tags = props.note.tags;
+  const noteID = props.note.noteID;
+
+  // 노트 삭제하기 API
+  const user = useRecoilValue(userState);
+  function delNote() {
+    deleteNote(user.userID, noteID).then((resp) => {
+      console.log("Note - " + resp);
+    });
+  }
+
   return (
-    <Container>
-      <Date>2023/02/02</Date>
-      <Text>
-        A dog is running at the park hahah abcparkdfdfdffdfdfdfdfdfdfdf
-        dfdfddfddddddddddddddddddddddfd
-      </Text>
+    <Container
+      onClick={() => {
+        navigate("/note", { state: noteID });
+      }}
+    >
+      <Date>{date}</Date>
+      <Text>{prev}</Text>
       <TagContainter>
-        <TagWhite />
-        <TagWhite />
-        <TagWhite />
+        {tags.map((tag, idx) => {
+          return <TagWhite key={idx} tag={tag} />;
+        })}
       </TagContainter>
 
-      <Image src={ImageDelete} />
+      <Image
+        src={ImageDelete}
+        onClick={(e) => {
+          e.stopPropagation();
+          delNote();
+        }}
+      />
     </Container>
   );
 }
@@ -40,6 +66,14 @@ const Container = styled.div`
 
   color: #ffffff;
   font-family: "NotoSans-Regular";
+
+  @media screen and (max-width: 930px) {
+    width: calc((100% - 16px) / 3);
+  }
+
+  @media screen and (max-width: 700px) {
+    width: calc((100% - 16px) / 2);
+  }
 `;
 
 const Text = styled.div`
@@ -51,6 +85,7 @@ const Text = styled.div`
 
   font-size: 18px;
   word-break: break-all;
+  color: #fff;
 `;
 
 const Date = styled.div`
@@ -85,4 +120,6 @@ const Image = styled.img`
   top: 0;
   right: 0;
   margin: 10px;
+
+  cursor: pointer;
 `;

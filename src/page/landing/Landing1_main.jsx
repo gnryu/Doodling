@@ -28,18 +28,20 @@ export default function Landing1() {
 
 const Background = styled.div`
   width: 100%;
-  height: fit-content;
+  height: 550px;
+  display: flex;
+  align-items: center;
   background-size: 100%;
 `;
 
 const Wrapper = styled.div`
-  width: 1000;
+  width: 1000px;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
   margin-top: 50px;
   color: #2b234a;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 
 const TextWrapper = styled.div`

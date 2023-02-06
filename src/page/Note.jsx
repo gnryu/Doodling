@@ -1,46 +1,101 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { getNote } from "../api/userServics";
+import { deleteNote } from "../api/noteService";
+import { userState } from "../atom/User";
 import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
 import Modal_Image from "../components/Modal_Image";
 import Tags from "../components/Tags";
+import IcRemove from "../img/ic_remove (1).svg";
 
 export default function Note() {
-  // Date
-  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
+  // 전달받은 NoteID
+  const { state } = useLocation();
+  const user = useRecoilValue(userState);
+  //console.log(state + " " + user.userID);
 
-  // Modal
-  const [showModal, setShowModal] = useState(false);
+  // 노트 상세 조회 API
+  const [note, setNote] = useState();
+  useEffect(() => {
+    getNote(user.userID, state).then((noteO) => {
+      const noteJS = JSON.stringify(noteO);
+      const result = JSON.parse(noteJS);
+      console.log(result.detail);
+
+      setNote(result.detail);
+    });
+  }, [user]);
+
+  // Modal(Image)
+  const [showImg, setShowImg] = useState();
+
+  // Modal -> Show Image Modal
+  function showImgModal(text, img) {
+    const data = {
+      text: text,
+      img: img,
+    };
+    setShowImg(data);
+  }
+
+  // Modal -> Close modal
+  function closeModal() {
+    setShowImg();
+  }
+
+  // 노트 삭제 API
+  function delNote() {
+    deleteNote(user.userID, state).then((resp) => {
+      console.log("Note - " + resp);
+    });
+  }
 
   return (
     <>
       <Wrapper>
-        <Top>
-          <DateText>{date}</DateText>
-          <Tags />
-        </Top>
+        {note != null && (
+          <>
+            <Top>
+              <DateText>{note.date}</DateText>
+              <Tags tags={note.tags} />
+              <DeleteImg src={IcRemove} onClick={delNote} />
+            </Top>
 
-        <Body>
-          <TextBox>
-            <Input> DOg is shalalalal</Input>
-          </TextBox>
-          <ImageBox>
-            <Image />
-            <Image />
-            <Image />
-            <Image />
-          </ImageBox>
-        </Body>
+            <Body>
+              <TextBox>
+                <Input> {note.content}</Input>
+              </TextBox>
+              <ImageBox>
+                {note.images.map((item, idx) => {
+                  return (
+                    <Image item={item} key={idx} showImgModal={showImgModal} />
+                  );
+                })}
+              </ImageBox>
+            </Body>
+          </>
+        )}
       </Wrapper>
-      {showModal && <Modal_Image closeModal={() => setShowModal(false)} />}
+      {showImg != null && (
+        <Modal_Image
+          text={showImg.text}
+          img={showImg.img}
+          closeModal={closeModal}
+        />
+      )}
     </>
   );
 }
 
 const Wrapper = styled.div`
   max-width: 1200px;
-  height: calc(100vh - 85px);
+  height: calc(100vh - 100px);
+
   margin: 0 auto;
+  margin-bottom: 20px;
   padding: 0 50px;
 
   overflow-y: hidden;
@@ -53,11 +108,21 @@ const Top = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: relative;
 `;
 
 const DateText = styled.div`
   font-family: "NotoSans-Semibold";
   font-size: 14px;
+`;
+
+const DeleteImg = styled.img`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  width: 24px;
+  cursor: pointer;
 `;
 
 const Body = styled.div`
@@ -67,11 +132,20 @@ const Body = styled.div`
 
   display: flex;
   flex-direction: row;
+
+  @media screen and (max-width: 1030px) {
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 const TextBox = styled.div`
   flex: 8;
   height: 100%;
+
+  @media screen and (max-width: 1030px) {
+    flex: 5;
+  }
 `;
 
 const ImageBox = styled.div`
@@ -83,6 +157,9 @@ const ImageBox = styled.div`
   padding-right: 10px;
   margin-bottom: 10px;
 
+  display: flex;
+  flex-direction: column;
+
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -91,6 +168,17 @@ const ImageBox = styled.div`
     height: 10px;
     background-color: #ececec;
     border-radius: 20px;
+  }
+
+  @media screen and (max-width: 1030px) {
+    width: 100%;
+    margin: 0;
+    margin: 10px 0 0 0;
+    flex: 5;
+
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
   }
 `;
 

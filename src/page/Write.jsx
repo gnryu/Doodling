@@ -1,33 +1,17 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import CustomTags from "../components/CustomTags";
 import IcSave from "../img/ic_saveP.svg";
 import ImageEditable from "../components/ImageEditable";
 import Modal_Image from "../components/Modal_Image";
 import Modal_Result from "../components/Modal_Result";
+import { useRecoilValue } from "recoil";
+import { userState } from "../atom/User";
+import { saveNote } from "../api/noteService";
+import { useNavigate } from "react-router-dom";
 
 export default function Write() {
-  // (1) Date, NoteId 받아오기
-  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
-
-  // (2) Drag Text
-  const [text, setText] = useState("");
-  const onDragged = () => {
-    const text = window.getSelection().toString();
-    if (text.length <= 0) return;
-
-    setText(text);
-  };
-
-  // (3) Save
-  var tags = [];
-  function getTags(tagList) {
-    tags = tagList;
-  }
-  const save = () => {
-    // userId, noteId, date, contents, tags, images(img, text)
-    //const tags =
-  };
+  const navigate = useNavigate();
 
   // Modal(Editable)
   const [showModal, setShowModal] = useState(false);
@@ -77,9 +61,45 @@ export default function Write() {
     setImageList(newImageList);
   }
 
+  // (1) Date, NoteId 받아오기
+  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
+
+  // (2) Drag Text
+  const [text, setText] = useState("");
+  const onDragged = () => {
+    const text = window.getSelection().toString();
+    if (text.length <= 0) return;
+
+    setText(text);
+  };
+
+  // (3) Save
+  const [tags, setTags] = useState([]);
+  const contentRef = useRef();
+  const user = useRecoilValue(userState);
+  function getTags(tagList) {
+    setTags(tagList);
+  }
+
+  const save = () => {
+    // userId, noteId, date, contents, tags, images(img, text)
+    const note = {
+      userID: user.userID,
+      date: date,
+      tags: tags,
+      content: contentRef.current.value,
+      images: imageList,
+    };
+
+    saveNote(note).then((resp) => {
+      console.log("write - " + resp.data);
+      navigate("/my");
+    });
+  };
+
   return (
     <>
-      <Wrapper>
+      <Wrapper id="here">
         <Top>
           <DateText>{date}</DateText>
           <CustomTags getTags={getTags} />
@@ -93,6 +113,7 @@ export default function Write() {
           <TextBox>
             <Input
               type="text"
+              ref={contentRef}
               placeholder="Write note..."
               onMouseUp={() => onDragged()}
             />
@@ -118,6 +139,7 @@ export default function Write() {
           </ImageBox>
         </Body>
       </Wrapper>
+
       {showModal && (
         <Modal_Result text={text} closeModal={closeModal} addImage={addImage} />
       )}
@@ -134,11 +156,13 @@ export default function Write() {
 
 const Wrapper = styled.div`
   max-width: 1200px;
-  height: calc(100vh - 85px);
+  height: calc(100vh - 100px);
+
   margin: 0 auto;
-  padding: 0 50px;
+  padding: 0 50px 20px 50px;
 
   overflow-y: hidden;
+  overflow-x: hidden;
 `;
 
 const Top = styled.div`
@@ -173,26 +197,36 @@ const SaveBox = styled.div`
 
 const Body = styled.div`
   width: 100%;
-  height: 90%;
+  height: 80%;
   margin-top: 10px;
 
   display: flex;
   flex-direction: row;
+
+  @media screen and (max-width: 1030px) {
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 const TextBox = styled.div`
   flex: 8;
-  height: 100%;
+
+  @media screen and (max-width: 1030px) {
+    flex: 6;
+  }
 `;
 
 const ImageBox = styled.div`
   flex: 2;
   margin-left: 20px;
-  height: 100%;
 
   overflow-y: scroll;
   padding-right: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+
+  display: flex;
+  flex-direction: column;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -202,6 +236,19 @@ const ImageBox = styled.div`
     height: 10px;
     background-color: #ececec;
     border-radius: 20px;
+  }
+
+  @media screen and (max-width: 1030px) {
+    width: 100%;
+    height: 180px;
+
+    margin: 0;
+    margin: 10px 0 0 0;
+    flex: 4;
+
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
   }
 `;
 

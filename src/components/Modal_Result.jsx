@@ -68,6 +68,8 @@ const Background = styled.div`
   top: 0;
   z-index: 10;
 
+  overflow-x: hidden;
+
   display: flex;
   justify-content: center;
   align-items: center;

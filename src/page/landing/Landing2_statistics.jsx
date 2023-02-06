@@ -26,7 +26,10 @@ export default function Landing2() {
 const Background = styled.div`
   margin-top: 100px;
   padding: 100px 0;
-  background-color: #f8f8f8;
+  background-color: #efefef;
+  height: 580px;
+  display: flex;
+  align-items: center;
 `;
 
 const Wrapper = styled.div`
@@ -34,7 +37,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   color: #2b234a;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 
 const TextWrapper = styled.div`

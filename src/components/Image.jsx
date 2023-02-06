@@ -2,11 +2,24 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ImageExample from "../img/img_dog.svg";
 
-export default function Image() {
+export default function Image(props) {
+  const [isHover, setIsHover] = useState(false);
+
+  function showImgModal() {
+    props.showImgModal(props.item.text, props.item.img);
+  }
+
   return (
-    <ImageBox>
-      <Img src={ImageExample} />
-    </ImageBox>
+    <>
+      <ImageBox
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        <Img src={props.item.img} />
+
+        {isHover && <Background onClick={showImgModal} />}
+      </ImageBox>
+    </>
   );
 }
 
@@ -21,11 +34,18 @@ const ImageBox = styled.div`
   box-sizing: border-box;
 
   position: relative;
+
+  @media screen and (max-width: 1030px) {
+    margin-bottom: 0;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
 `;
 
 const Img = styled.img`
   width: 100%;
   height: 100%;
+  border-radius: 15px;
 `;
 
 const Background = styled.div`
