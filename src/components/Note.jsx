@@ -20,6 +20,7 @@ export default function Note(props) {
   function delNote() {
     deleteNote(user.userID, noteID).then((resp) => {
       console.log("Note - " + resp);
+      window.location.reload();
     });
   }
 
