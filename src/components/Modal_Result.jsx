@@ -21,6 +21,11 @@ export default function Modal_Result(props) {
   }
 
   function save(img) {
+    if (img == undefined) {
+      alert("You can save it after the conversion is over!");
+      return;
+    }
+
     props.addImage(props.text, img);
     closeModal();
   }

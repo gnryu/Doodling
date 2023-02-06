@@ -18,11 +18,11 @@ export default function Main() {
   const user = useRecoilValue(userState);
 
   // 검색 상태 (input <-> div)
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState();
 
   // 노트 전체 조회하기 API
   useEffect(() => {
-    if (user == null || isSearching == true) return;
+    if (user == null || isSearching != null) return;
     getNotes(user.userID).then((notesO) => {
       const notesJS = JSON.stringify(notesO);
       const notes = JSON.parse(notesJS);
@@ -42,14 +42,14 @@ export default function Main() {
       const notes = JSON.parse(notesJS);
 
       setNoteList(notes);
-      setIsSearching(true);
+      setIsSearching(searchWord);
     });
   }
 
   return (
     <Wrapper>
       <SearchWrapper>
-        {!isSearching && (
+        {isSearching == null && (
           <>
             <Search
               type="text"
@@ -63,10 +63,10 @@ export default function Main() {
           </>
         )}
 
-        {isSearching && (
+        {isSearching != null && (
           <>
-            <SearchResult onClick={() => setIsSearching(false)}>
-              animal
+            <SearchResult onClick={() => setIsSearching(null)}>
+              {isSearching}
             </SearchResult>
             <SearchImage
               src={ImageCancel}
@@ -134,7 +134,8 @@ const SearchResult = styled.div`
 
   font-family: "NotoSans-Regular";
   font-size: 18px;
-  line-height: 2;
+  display: flex;
+  align-items: center;
 `;
 
 const SearchImage = styled.img`

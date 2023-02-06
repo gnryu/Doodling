@@ -62,6 +62,7 @@ const Background = styled.div`
 const Wrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
+  padding: 0 50px;
   display: flex;
   flex-direction: column;
   margin-top: 50px;

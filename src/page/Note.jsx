@@ -17,16 +17,16 @@ export default function Note() {
   // 전달받은 NoteID
   const { state } = useLocation();
   const user = useRecoilValue(userState);
-  //console.log(state + " " + user.userID);
+  console.log(state + " " + user);
 
   // 노트 상세 조회 API
   const [note, setNote] = useState();
   useEffect(() => {
+    if (user == null) return;
     getNote(user.userID, state).then((noteO) => {
       const noteJS = JSON.stringify(noteO);
       const result = JSON.parse(noteJS);
       console.log(result.detail);
-
       setNote(result.detail);
     });
   }, [user]);
