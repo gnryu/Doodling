@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { getNotes } from "../api/userServics";
+import { userState } from "../atom/User";
 import Header from "../components/Header";
 import NewNote from "../components/NewNote";
 import Note from "../components/Note";
@@ -8,6 +11,20 @@ import ImageSearch from "../img/ic_search.svg";
 
 export default function Main() {
   const navigate = useNavigate();
+
+  const [noteList, setNoteList] = useState([]);
+  const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    if (user == null) return;
+    getNotes(user.userID).then((notesO) => {
+      const notesJS = JSON.stringify(notesO);
+      const notes = JSON.parse(notesJS);
+      console.log("h " + notes);
+
+      setNoteList(notes);
+    });
+  }, [user]);
 
   return (
     <Wrapper>
@@ -17,6 +34,10 @@ export default function Main() {
       </SearchWrapper>
       <MemoWrapper>
         <NewNote />
+        {noteList.map((note, index) => {
+          return <Note key={index} note={note} />;
+        })}
+        {/* <Note />
         <Note />
         <Note />
         <Note />
@@ -26,8 +47,7 @@ export default function Main() {
         <Note />
         <Note />
         <Note />
-        <Note />
-        <Note />
+        <Note /> */}
       </MemoWrapper>
     </Wrapper>
   );

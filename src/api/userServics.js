@@ -24,17 +24,16 @@ export const login = async (name, email) => {
 };
 
 // 노트 조회하기 (GET)
-export const getNotes = async () => {
-  await API.get("/mynote")
-    .then((resp) => {
-      console.log(resp);
-      return resp.data;
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+export const getNotes = async (userID) => {
+  const resp = await API.get("/mynote", {
+    params: { userID: userID },
+  });
 
-  return "data";
+  console.log(resp);
+
+  if (resp.data.isSuccess) {
+    return resp.data.result;
+  }
 };
 
 // 노트 상세 조회하기 (GET)

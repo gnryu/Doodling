@@ -3,18 +3,21 @@ import styled from "styled-components";
 import TagWhite from "./TagWhite";
 import ImageDelete from "../img/ic_delete.svg";
 
-export default function Note() {
+export default function Note(props) {
+  console.log(props.note);
+  const date = props.note.date;
+  const prev = props.note.preview;
+  const tags = props.note.tags;
+  const noteID = props.note.noteID;
+
   return (
     <Container>
-      <Date>2023/02/02</Date>
-      <Text>
-        A dog is running at the park hahah abcparkdfdfdffdfdfdfdfdfdfdf
-        dfdfddfddddddddddddddddddddddfd
-      </Text>
+      <Date>{date}</Date>
+      <Text>{prev}</Text>
       <TagContainter>
-        <TagWhite />
-        <TagWhite />
-        <TagWhite />
+        {tags.map((tag, idx) => {
+          return <TagWhite key={idx} tag={tag} />;
+        })}
       </TagContainter>
 
       <Image src={ImageDelete} />

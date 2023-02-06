@@ -18,6 +18,7 @@ export default function Header() {
     const user = localStorage.getItem("user");
     if (user !== undefined) {
       setUser(JSON.parse(user));
+      console.log("자동 로그인 - " + user);
     }
   }, []);
 

@@ -164,14 +164,20 @@ def save():
     
 @app.route('/mynote', methods=['POST', 'GET', 'OPTIONS'])
 def mynote():
+    if request.method == 'OPTIONS':
+        resp = jsonify({"msg": "hello world"})
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+    
     if request.method == 'GET':
         ### TEST EXAMPLE
         # json_data = {
         #     "userID": "-NNWnSAxkfoNrdg1_FGa"
         # }
-        json_data = request.get_json()
+        # json_data = request.get_json()
 
-        userID = json_data['userID']
+        userID = request.args.get('userID')
 
         users = db.child('users').get()
         user_key = list((users.val()).keys())
