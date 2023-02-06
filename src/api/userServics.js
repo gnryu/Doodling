@@ -1,12 +1,16 @@
+import { async } from "@firebase/util";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import API from "../axios";
+import { auth } from "../fbase";
+
+// 구글 로그인
+export const googleLogin = async () => {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider);
+};
 
 // 로그인 (POST)
-export const login = async (name, email) => {
-  const user = {
-    userName: name,
-    userEmail: email,
-  };
-
+export const login = async (user) => {
   const resp = await API.post("/user/login", JSON.stringify(user));
 
   if (resp.data.isSuccess) {

@@ -3,9 +3,36 @@ import styled from "styled-components";
 import Image from "../../img/MainImage.svg";
 import BackgroundImage from "../../img/background.svg";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../../atom/User";
+import { googleLogin, login } from "../../api/userServics";
 
 export default function Landing1() {
   const navigate = useNavigate();
+
+  const [user, setUser] = useRecoilState(userState);
+  function getStart() {
+    if (user == null) {
+      alert("로그인 후 이용 가능합니다!");
+
+      googleLogin().then((data) => {
+        const req = {
+          userName: data.user.displayName,
+          userEmail: data.user.email,
+        };
+
+        login(req).then((user) => {
+          const userJson = JSON.stringify(user);
+          localStorage.setItem("user", userJson);
+          setUser(user);
+        });
+      });
+
+      return;
+    }
+
+    navigate("/my");
+  }
 
   return (
     <Background style={{ backgroundImage: `url(${BackgroundImage})` }}>
@@ -18,7 +45,7 @@ export default function Landing1() {
           <TextThin>
             created by <u>ChatGPT</u>
           </TextThin>
-          <Button onClick={() => navigate("/my")}>Get started</Button>
+          <Button onClick={getStart}>Get started</Button>
         </TextWrapper>
         <img src={Image} width={376} />
       </Wrapper>
