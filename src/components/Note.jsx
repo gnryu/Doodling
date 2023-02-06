@@ -34,7 +34,11 @@ export default function Note(props) {
       <Text>{prev}</Text>
       <TagContainter>
         {tags.map((tag, idx) => {
-          return <TagWhite key={idx} tag={tag} />;
+          return (
+            <TagItem key={idx}>
+              <TagText>#{tag}</TagText>
+            </TagItem>
+          );
         })}
       </TagContainter>
 
@@ -102,14 +106,7 @@ const TagContainter = styled.div`
   overflow-y: hidden;
 
   &::-webkit-scrollbar {
-    display: none; /* 여기 */
-    height: 5px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    width: 5%;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
+    display: none;
   }
 `;
 
@@ -123,4 +120,22 @@ const Image = styled.img`
   margin: 10px;
 
   cursor: pointer;
+`;
+
+const TagItem = styled.div`
+  padding: 5px 10px;
+
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+
+  margin-right: 5px;
+`;
+
+const TagText = styled.div`
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-family: "NotoSans-Regular";
+  font-size: 14px;
+  color: #fff;
 `;

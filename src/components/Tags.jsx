@@ -12,7 +12,7 @@ export default function Tags(props) {
         {tagList.map((tagItem, index) => {
           return (
             <TagItem key={index}>
-              <Text>{tagItem}</Text>
+              <Text>#{tagItem}</Text>
             </TagItem>
           );
         })}
@@ -22,10 +22,15 @@ export default function Tags(props) {
 }
 
 const Wrapper = styled.div`
-  margin-left: 10px;
+  width: calc(100% - (160px));
+  overflow-x: scroll;
 
   display: flex;
   flex-direction: row;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const TagBox = styled.div`
@@ -38,10 +43,6 @@ const TagBox = styled.div`
 `;
 
 const TagItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
   height: 100%;
   padding: 5px 10px;
 
@@ -52,8 +53,11 @@ const TagItem = styled.div`
 `;
 
 const Text = styled.div`
+  display: flex;
+  align-items: center;
   font-family: "NotoSans-Regular";
+
   font-size: 14px;
   color: #fff;
-  line-height: 2;
+  white-space: nowrap;
 `;
