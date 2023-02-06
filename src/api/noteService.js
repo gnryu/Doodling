@@ -16,7 +16,7 @@ export const saveNote = async (note) => {
 // 노트 삭제하기 (DELETE)
 export const deleteNote = async (userID, noteID) => {
   console.log(userID, noteID);
-  const res = await API.delete("/note/delete", {
+  await API.delete("/note/delete", {
     params: {
       userID: userID,
       noteID: noteID,
@@ -32,3 +32,14 @@ export const deleteNote = async (userID, noteID) => {
 };
 
 // 태그 검색하기 (GET)
+export const searchTag = async (userID, searchWord) => {
+  const resp = await API.get("/tag/search", {
+    params: { userID: userID, searchWord: searchWord },
+  });
+
+  console.log(resp);
+
+  if (resp.data.isSuccess) {
+    return resp.data.result;
+  }
+};
