@@ -175,11 +175,11 @@ def mynote():
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
             
-            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "해당 userID에 노트가 존재하지 않습니다."
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
             if notes.val() == None:
                 response = {
-                    "isSuccess": True,
-                    "message": "해당 userID에 노트가 존재하지 않습니다.",
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
                     "result": {}
                 }
                 resp = jsonify(response)
@@ -238,11 +238,11 @@ def detail():
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
             
-            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "해당 userID에 노트가 존재하지 않습니다."
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
             if notes.val() == None:
                 response = {
-                    "isSuccess": True,
-                    "message": "해당 userID에 노트가 존재하지 않습니다.",
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
                     "result": {}
                 }
                 resp = jsonify(response)
@@ -305,11 +305,11 @@ def delete():
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
 
-            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "해당 userID에 노트가 존재하지 않습니다."
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
             if notes.val() == None:
                 response = {
-                    "isSuccess": True,
-                    "message": "해당 userID에 노트가 존재하지 않습니다.",
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
                     "result": {}
                 }
                 resp = jsonify(response)
@@ -365,11 +365,11 @@ def search():
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
             
-            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "해당 userID에 노트가 존재하지 않습니다."
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
             if notes.val() == None:
                 response = {
-                    "isSuccess": True,
-                    "message": "해당 userID에 노트가 존재하지 않습니다.",
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
                     "result": {}
                 }
                 resp = jsonify(response)
@@ -400,11 +400,11 @@ def search():
                 if searchWord in i['tags']:
                     searchNoteID.append(i['noteID'])
             
-            # 해당 userID의 노트들에 searchWord가 없으면, "searchWord가 태그인 노트는 존재하지 않습니다."
+            # 해당 userID의 노트들에 searchWord가 없으면, "ERROR; searchWord가 태그인 노트는 존재하지 않습니다."
             if len(searchNoteID) == 0:
                 response = {
-                    "isSuccess": True,
-                    "message": f"\'{searchWord}\'이 태그인 노트는 존재하지 않습니다.",
+                    "isSuccess": False,
+                    "message": f"ERROR; \'{searchWord}\'이 태그인 노트는 존재하지 않습니다.",
                     "result": {}
                 }
                 resp = jsonify(response)
