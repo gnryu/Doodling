@@ -280,22 +280,30 @@ def detail():
         resp.headers.add('Content-Type', 'application/json')
         return resp
         
-@app.route('/note/delete', methods=['DELETE'])
+@app.route('/note/delete', methods=['GET', 'DELETE'])
 def delete():
-    ### TEST EXAMPLE
-    json_data = {
-        "userID": "-NNWnSAxkfoNrdg1_FGa",
-        "noteID": "-NNXM3TOdfqWt53X33km"
-    }
-    # json_data = request.get_json()
+    if request.method == 'GET':
+        resp = jsonify({"msg" :"hello world"})
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+    
+    if request.method == 'DELETE':
+        userID = request.args.get('userID')
+        noteID = request.args.get('noteID')
 
-    userID = json_data['userID']
-    noteID = json_data['noteID']
-
-    note = db.child('users').child(userID).child('notes').child(noteID)
-    print(note)
-    return note
-
+        note_to_delete = db.child('users').child(userID).child('notes').child(noteID)
+        note_to_delete.set(None)
+        
+        response = {
+            "isSuccess": True,
+            "message": "노트 삭제를 성공하였습니다.",
+            "result": {}
+        }
+        resp = jsonify(response)
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
 
 @app.route('/tag/search', methods=['POST', 'GET', 'OPTIONS'])
 def search():
