@@ -5,7 +5,7 @@ import { auth } from "../fbase";
 import LogoIcon from "../img/Logo_with_desc.svg";
 import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/userServics";
+import { googleLogin, login } from "../api/userServics";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
 
@@ -29,6 +29,8 @@ export default function Header() {
       .then((data) => {
         const name = data.user.displayName;
         const email = data.user.email;
+
+        console.log(name, email);
 
         login(name, email).then((user) => {
           const userJson = JSON.stringify(user);
@@ -65,8 +67,13 @@ export default function Header() {
 
           {user != null && (
             <>
-              <Text style={{ marginRight: "15px" }}>{user.userName}</Text>
-              <UserImage src={IcUser} />
+              <Text
+                style={{ marginRight: "15px" }}
+                onClick={() => navigate("/my")}
+              >
+                {user.userName}
+              </Text>
+              <UserImage src={IcUser} onClick={() => navigate("/my")} />
             </>
           )}
         </NavWrapper>

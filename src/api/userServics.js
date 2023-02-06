@@ -1,17 +1,13 @@
-import { async } from "@firebase/util";
-import { useSetRecoilState } from "recoil";
-import { userState } from "../atom/User";
 import API from "../axios";
 
 // 로그인 (POST)
 export const login = async (name, email) => {
-  const input = {
+  const user = {
     userName: name,
     userEmail: email,
   };
 
-  const resp = await API.post("/user/login", JSON.stringify(input));
-  console.log(resp);
+  const resp = await API.post("/user/login", JSON.stringify(user));
 
   if (resp.data.isSuccess) {
     const user = {
