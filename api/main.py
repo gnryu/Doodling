@@ -175,11 +175,11 @@ def mynote():
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
             
-            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "해당 userID에 노트가 존재하지 않습니다."
             if notes.val() == None:
                 response = {
-                    "isSuccess": False,
-                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
+                    "isSuccess": True,
+                    "message": "해당 userID에 노트가 존재하지 않습니다.",
                     "result": {}
                 }
                 resp = jsonify(response)
