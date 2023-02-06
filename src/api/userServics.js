@@ -37,3 +37,14 @@ export const getNotes = async (userID) => {
 };
 
 // 노트 상세 조회하기 (GET)
+export const getNote = async (userID, noteID) => {
+  const resp = await API.get("/note/detail", {
+    params: { userID: userID, noteID: noteID },
+  });
+
+  console.log(resp);
+
+  if (resp.data.isSuccess) {
+    return resp.data.result;
+  }
+};

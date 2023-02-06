@@ -219,16 +219,16 @@ def mynote():
 
 @app.route('/note/detail', methods=['POST', 'GET', 'OPTIONS'])
 def detail():
+    if request.method == 'OPTIONS':
+        resp = jsonify({"msg": "hello world"})
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+    
     if request.method == 'GET':
-        ### TEST EXAMPLE
-        # json_data = {
-        #     "userID": "-NNWnSAxkfoNrdg1_FGa",
-        #     "noteID": "-NNXM3TOdfqWt53X33km"
-        # }
-        json_data = request.get_json()
 
-        userID = json_data['userID']
-        noteID = json_data['noteID']
+        userID = request.args.get('userID')
+        noteID = request.args.get('noteID')
 
         users = db.child('users').get()
         user_key = list((users.val()).keys())

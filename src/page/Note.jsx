@@ -1,13 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { getNote } from "../api/userServics";
+import { userState } from "../atom/User";
 import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
 import Modal_Image from "../components/Modal_Image";
 import Tags from "../components/Tags";
 
 export default function Note() {
-  // Date
-  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
+  // 전달받은 NoteID
+  const { state } = useLocation();
+  const user = useRecoilValue(userState);
+  //console.log(state + " " + user.userID);
+
+  // 노트 상세 조회 API
+  const [note, setNote] = useState();
+  useEffect(() => {
+    getNote(user.userID, state).then((noteO) => {
+      const noteJS = JSON.stringify(noteO);
+      const result = JSON.parse(noteJS);
+      console.log(result.detail);
+
+      setNote(result.detail);
+    });
+  }, [user]);
 
   // Modal
   const [showModal, setShowModal] = useState(false);
@@ -15,22 +33,25 @@ export default function Note() {
   return (
     <>
       <Wrapper>
-        <Top>
-          <DateText>{date}</DateText>
-          <Tags />
-        </Top>
+        {note != null && (
+          <>
+            <Top>
+              <DateText>{note.date}</DateText>
+              <Tags tags={note.tags} />
+            </Top>
 
-        <Body>
-          <TextBox>
-            <Input> DOg is shalalalal</Input>
-          </TextBox>
-          <ImageBox>
-            <Image />
-            <Image />
-            <Image />
-            <Image />
-          </ImageBox>
-        </Body>
+            <Body>
+              <TextBox>
+                <Input> {note.content}</Input>
+              </TextBox>
+              <ImageBox>
+                {note.images.map((item, idx) => {
+                  return <Image item={item} key={idx} />;
+                })}
+              </ImageBox>
+            </Body>
+          </>
+        )}
       </Wrapper>
       {showModal && <Modal_Image closeModal={() => setShowModal(false)} />}
     </>
@@ -41,6 +62,7 @@ const Wrapper = styled.div`
   max-width: 1200px;
   height: calc(100vh - 85px);
   margin: 0 auto;
+  margin-bottom: 50px;
   padding: 0 50px;
 
   overflow-y: hidden;

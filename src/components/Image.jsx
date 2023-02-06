@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ImageExample from "../img/img_dog.svg";
 
-export default function Image() {
+export default function Image(props) {
   return (
     <ImageBox>
-      <Img src={ImageExample} />
+      <Img src={props.item.img} />
     </ImageBox>
   );
 }
@@ -26,6 +26,7 @@ const ImageBox = styled.div`
 const Img = styled.img`
   width: 100%;
   height: 100%;
+  border-radius: 15px;
 `;
 
 const Background = styled.div`

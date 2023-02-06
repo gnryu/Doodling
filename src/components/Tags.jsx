@@ -3,8 +3,8 @@ import styled from "styled-components";
 import ImageRemove from "../img/ic_remove.svg";
 import ImageAdd from "../img/ic_add.svg";
 
-export default function Tags() {
-  const tagList = ["#hello", "#dog", "#new"];
+export default function Tags(props) {
+  const tagList = props.tags;
 
   return (
     <Wrapper>

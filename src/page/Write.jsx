@@ -94,7 +94,7 @@ export default function Write() {
     console.log(note);
     saveNote(note).then((resp) => {
       console.log("write - " + resp.data);
-      navigate("/main");
+      navigate("/my");
     });
   };
 

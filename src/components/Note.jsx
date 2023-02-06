@@ -2,16 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import TagWhite from "./TagWhite";
 import ImageDelete from "../img/ic_delete.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Note(props) {
-  console.log(props.note);
+  const navigate = useNavigate();
+
+  console.log("Note - " + props.note);
   const date = props.note.date;
   const prev = props.note.preview;
   const tags = props.note.tags;
   const noteID = props.note.noteID;
 
   return (
-    <Container>
+    <Container
+      onClick={() => {
+        navigate("/note", { state: noteID });
+      }}
+    >
       <Date>{date}</Date>
       <Text>{prev}</Text>
       <TagContainter>
