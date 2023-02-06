@@ -165,12 +165,6 @@ def mynote():
         resp.headers.add('Content-Type', 'application/json')
         return resp
 
-    if request.method == 'OPTIONS':
-        resp = jsonify({"msg": "hello world"})
-        resp.headers.add('Access-Control-Allow-Credentials', 'true')
-        resp.headers.add('Content-Type', 'application/json')
-        return resp
-    
     if request.method == 'GET':
         userID = request.args.get('userID')
 
@@ -232,12 +226,8 @@ def detail():
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
         resp.headers.add('Content-Type', 'application/json')
         return resp
-
-    
+        
     if request.method == 'GET':
-        userID = request.args.get('userID')
-        noteID = request.args.get('noteID')
-
         userID = request.args.get('userID')
         noteID = request.args.get('noteID')
 
@@ -290,14 +280,14 @@ def detail():
         resp.headers.add('Content-Type', 'application/json')
         return resp
         
-@app.route('/note/delete', methods=['GET', 'DELETE', 'OPTIONS'])
+@app.route('/note/delete', methods=['GET', 'OPTIONS', 'DELETE'])
 def delete():
     if request.method == 'OPTIONS':
-        resp = jsonify({"msg": "hello world"})
+        resp = jsonify({"msg" :"hello world"})
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
         resp.headers.add('Content-Type', 'application/json')
         return resp
-    
+        
     if request.method == 'GET':
         resp = jsonify({"msg" :"hello world"})
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -308,14 +298,48 @@ def delete():
         userID = request.args.get('userID')
         noteID = request.args.get('noteID')
 
-        note_to_delete = db.child('users').child(userID).child('notes').child(noteID)
-        note_to_delete.set(None)
-        
-        response = {
-            "isSuccess": True,
-            "message": "노트 삭제를 성공하였습니다.",
-            "result": {}
-        }
+        users = db.child('users').get()
+        user_key = list((users.val()).keys())
+
+        # userID가 없으면, ERROR; not exists userID
+        if userID in user_key:
+            notes = db.child('users').child(userID).child('notes').get()
+
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
+            if notes.val() == None:
+                response = {
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
+                    "result": {}
+                }
+                resp = jsonify(response)
+                resp.headers.add('Access-Control-Allow-Credentials', 'true')
+                resp.headers.add('Content-Type', 'application/json')
+                return resp
+            
+            note_key = list((notes.val()).keys())
+
+            # noteID가 없으면, ERROR; not exists noteID
+            if noteID in note_key:
+                note_to_delete = db.child('users').child(userID).child('notes').child(noteID)
+                note_to_delete.set(None)
+                response = {
+                    "isSuccess": True,
+                    "message": "노트 삭제를 성공하였습니다.",
+                    "result": {}
+                }
+            else:
+                response = {
+                    "isSuccess": False,
+                    "message": "ERROR; 존재하지 않는 noteID입니다.",
+                    "result": {}
+                }
+        else:
+            response = {
+                "isSuccess": False,
+                "message": "ERROR; 존재하지 않는 userID입니다.",
+                "result": {}
+            }
         resp = jsonify(response)
         resp.headers.add('Access-Control-Allow-Credentials', 'true')
         resp.headers.add('Content-Type', 'application/json')
