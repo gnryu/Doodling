@@ -159,14 +159,14 @@ def save():
     
 @app.route('/mynote', methods=['POST', 'GET', 'OPTIONS'])
 def mynote():
-    if request.method == 'GET':
-        ### TEST EXAMPLE
-        # json_data = {
-        #     "userID": "-NNWnSAxkfoNrdg1_FGa"
-        # }
-        json_data = request.get_json()
+    if request.method == 'OPTIONS':
+        resp = jsonify({"msg" :"hello world"})
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
 
-        userID = json_data['userID']
+    if request.method == 'GET':
+        userID = request.args.get('userID')
 
         users = db.child('users').get()
         user_key = list((users.val()).keys())
@@ -174,6 +174,19 @@ def mynote():
         # id가 DB에 있으면 해당 id의 저장된 모든 노트를 조회
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
+            
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
+            if notes.val() == None:
+                response = {
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
+                    "result": {}
+                }
+                resp = jsonify(response)
+                resp.headers.add('Access-Control-Allow-Credentials', 'true')
+                resp.headers.add('Content-Type', 'application/json')
+                return resp
+                
             noteKey = list((notes.val()).keys())
 
             noteList = list()
@@ -208,16 +221,15 @@ def mynote():
 
 @app.route('/note/detail', methods=['POST', 'GET', 'OPTIONS'])
 def detail():
+    if request.method == 'OPTIONS':
+        resp = jsonify({"msg" :"hello world"})
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+        
     if request.method == 'GET':
-        ### TEST EXAMPLE
-        # json_data = {
-        #     "userID": "-NNWnSAxkfoNrdg1_FGa",
-        #     "noteID": "-NNXM3TOdfqWt53X33km"
-        # }
-        json_data = request.get_json()
-
-        userID = json_data['userID']
-        noteID = json_data['noteID']
+        userID = request.args.get('userID')
+        noteID = request.args.get('noteID')
 
         users = db.child('users').get()
         user_key = list((users.val()).keys())
@@ -225,6 +237,19 @@ def detail():
         # userID가 없으면, ERROR; not exists userID
         if userID in user_key:
             notes = db.child('users').child(userID).child('notes').get()
+            
+            # 해당 userID에 노트가 하나도 저장되어 있지 않으면 "ERROR; 해당 userID에 노트가 존재하지 않습니다."
+            if notes.val() == None:
+                response = {
+                    "isSuccess": False,
+                    "message": "ERROR; 해당 userID에 노트가 존재하지 않습니다.",
+                    "result": {}
+                }
+                resp = jsonify(response)
+                resp.headers.add('Access-Control-Allow-Credentials', 'true')
+                resp.headers.add('Content-Type', 'application/json')
+                return resp
+
             note_key = list((notes.val()).keys())
             
             # noteID가 없으면, ERROR; not exists noteID
