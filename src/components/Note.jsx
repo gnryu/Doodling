@@ -12,6 +12,9 @@ export default function Note(props) {
   const tags = props.note.tags;
   const noteID = props.note.noteID;
 
+  // 노트 삭제하기 API
+  function deleteNote() {}
+
   return (
     <Container
       onClick={() => {
@@ -26,7 +29,7 @@ export default function Note(props) {
         })}
       </TagContainter>
 
-      <Image src={ImageDelete} />
+      <Image src={ImageDelete} onClick={deleteNote} />
     </Container>
   );
 }

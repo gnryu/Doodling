@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -25,10 +25,16 @@ export default function Main() {
     });
   }, [user]);
 
+  // 노트 검색하기 API
+  const search = useRef();
+  function searchNote() {
+    const searchWord = search.current.value;
+  }
+
   return (
     <Wrapper>
       <SearchWrapper>
-        <Search type="text" placeholder="Search tags..." />
+        <Search type="text" placeholder="Search tags..." ref={search} />
         <SearchImage src={ImageSearch} />
       </SearchWrapper>
       <MemoWrapper>
@@ -89,6 +95,7 @@ const SearchImage = styled.img`
   right: 0;
   margin: auto 0;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 const MemoWrapper = styled.div`
