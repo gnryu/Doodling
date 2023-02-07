@@ -128,6 +128,14 @@ def save():
             if userNotes.val() != None:
                 for pastNote in userNotes.val():
                     note = (userNotes.val())[pastNote]
+
+                    # DB에 저장되어 있는 노트들 중, key로 tags나 images가 없는 노트들은 빈 리스트로 tags와 images key 추가
+                    noteKey = note.keys()
+                    if 'tags' not in noteKey:
+                        note['tags'] = list()
+                    if 'images' not in noteKey:
+                        note['images'] = list()
+
                     if note == json_data:
                         response = {
                             "isSuccess": False,
@@ -210,7 +218,7 @@ def mynote():
                     "preview": preview
                 }
                 noteList.append(noteDict)
-            resultList = noteList
+            resultList = noteList[::-1]
             response = {
                 "isSuccess": True,
                 "message": "노트 전체 조회에 성공하였습니다.",
@@ -398,19 +406,25 @@ def search():
             # {"noteID": "", "tags": []}를 요소로 가지는 noteList 만들기
             noteList = list()
             for i in notes.val():
-                noteTags = ((notes.val())[i])['tags']
-                
-                # 모든 노트 태그를 소문자로 바꾸기 + 공백 제거
-                lowerNoteTags = list()
-                for j in noteTags:
-                    j = (str(j).lower()).replace(" ", "")
-                    lowerNoteTags.append(j)
-                
-                eachNote = {
-                    "noteID": i,
-                    "tags": lowerNoteTags
-                }
-                noteList.append(eachNote)
+                keys = ((notes.val())[i]).keys()
+
+                # 해당 userID에 존재하는 전체 노트들 중에서 태그가 없는 노트는 제외
+                if 'tags' not in keys:
+                    continue
+                else:
+                    noteTags = ((notes.val())[i])['tags']
+
+                    # 모든 노트 태그를 소문자로 바꾸기 + 공백 제거
+                    lowerNoteTags = list()
+                    for j in noteTags:
+                        j = (str(j).lower()).replace(" ", "")
+                        lowerNoteTags.append(j)
+                    
+                    eachNote = {
+                        "noteID": i,
+                        "tags": lowerNoteTags
+                    }
+                    noteList.append(eachNote)
 
             # 검색하려는 태그를 포함하는 노트들의 noteID만을 요소로 가지는 searchNoteID 리스트 만들기
             searchNoteID = list()
