@@ -115,6 +115,7 @@ const Top = styled.div`
 `;
 
 const DateText = styled.div`
+  width: 90px;
   font-family: "NotoSans-Semibold";
   font-size: 14px;
 `;

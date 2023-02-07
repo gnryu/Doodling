@@ -176,11 +176,13 @@ const Top = styled.div`
 `;
 
 const DateText = styled.div`
+  width: 90px;
   font-family: "NotoSans-Semibold";
   font-size: 14px;
 `;
 
 const SaveBox = styled.div`
+  width: 50px;
   height: 100%;
 
   font-family: "NotoSans-Semibold";
@@ -293,6 +295,10 @@ const Text = styled.div`
 
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 1030px) {
+    height: 15%;
+  }
 `;
 
 const InputText = styled.div`
