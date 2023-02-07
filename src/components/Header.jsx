@@ -44,7 +44,8 @@ export default function Header() {
           width={134}
           style={{ cursor: "pointer" }}
           onClick={() => {
-            navigate("/");
+            if (user == null) return;
+            navigate("/my");
           }}
         />
 

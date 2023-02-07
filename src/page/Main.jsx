@@ -19,22 +19,16 @@ export default function Main() {
 
   // 검색 상태 (input <-> div)
   const [isSearching, setIsSearching] = useState();
+  const [searchWord, setSearchWord] = useState("");
 
   // 노트 전체 조회하기 API
   useEffect(() => {
-    if (user == null || isSearching != null) return;
-    getNotes(user.userID).then((notesO) => {
-      const notesJS = JSON.stringify(notesO);
-      const notes = JSON.parse(notesJS);
-
-      setNoteList(notes);
-    });
-  }, [user, isSearching]);
+    if (user == null) return;
+    getNoteAPI();
+  }, [user]);
 
   // 노트 검색하기 API
-  const searchBar = useRef();
   function search() {
-    const searchWord = searchBar.current.value;
     searchTag(user.userID, searchWord).then((notesO) => {
       if (notesO === undefined) return;
 
@@ -46,6 +40,15 @@ export default function Main() {
     });
   }
 
+  function getNoteAPI() {
+    getNotes(user.userID).then((notesO) => {
+      const notesJS = JSON.stringify(notesO);
+      const notes = JSON.parse(notesJS);
+
+      setNoteList(notes);
+    });
+  }
+
   return (
     <Wrapper>
       <SearchWrapper>
@@ -54,7 +57,8 @@ export default function Main() {
             <Search
               type="text"
               placeholder="Search tags..."
-              ref={searchBar}
+              value={searchWord}
+              onChange={(e) => setSearchWord(e.target.value)}
               onKeyDown={(e) => {
                 if (e.keyCode == 13) search();
               }}
@@ -66,12 +70,16 @@ export default function Main() {
         {isSearching != null && (
           <>
             <SearchResult onClick={() => setIsSearching(null)}>
-              {isSearching}
+              {searchWord}
             </SearchResult>
             <SearchImage
               src={ImageCancel}
               style={{ width: "14px", marginRight: "15px" }}
-              onClick={() => setIsSearching(false)}
+              onClick={() => {
+                setIsSearching(null);
+                setSearchWord("");
+                getNoteAPI();
+              }}
             />
           </>
         )}

@@ -13,6 +13,42 @@ import { useNavigate } from "react-router-dom";
 export default function Write() {
   const navigate = useNavigate();
 
+  // (1) Date, NoteId 받아오기
+  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
+
+  // (2) Drag Text
+  const [text, setText] = useState("");
+  const onDragged = () => {
+    const text = window.getSelection().toString();
+    if (text.length <= 0) return;
+
+    setText(text);
+  };
+
+  // (3) Save
+  const [tags, setTags] = useState([]);
+  const contentRef = useRef();
+  const user = useRecoilValue(userState);
+  function getTags(tagList) {
+    setTags(tagList);
+  }
+
+  const save = () => {
+    // userId, noteId, date, contents, tags, images(img, text)
+    const note = {
+      userID: user.userID,
+      date: date,
+      tags: tags,
+      content: contentRef.current.value,
+      images: imageList,
+    };
+
+    saveNote(note).then((resp) => {
+      console.log("write - " + resp.data);
+      navigate("/my");
+    });
+  };
+
   // Modal(Editable)
   const [showModal, setShowModal] = useState(false);
   const convert = () => {
@@ -52,6 +88,7 @@ export default function Write() {
     const newImageList = [...imageList];
     newImageList.push(data);
 
+    setText("");
     setImageList(newImageList);
   }
 
@@ -60,42 +97,6 @@ export default function Write() {
     newImageList.splice(idx, 1);
     setImageList(newImageList);
   }
-
-  // (1) Date, NoteId 받아오기
-  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
-
-  // (2) Drag Text
-  const [text, setText] = useState("");
-  const onDragged = () => {
-    const text = window.getSelection().toString();
-    if (text.length <= 0) return;
-
-    setText(text);
-  };
-
-  // (3) Save
-  const [tags, setTags] = useState([]);
-  const contentRef = useRef();
-  const user = useRecoilValue(userState);
-  function getTags(tagList) {
-    setTags(tagList);
-  }
-
-  const save = () => {
-    // userId, noteId, date, contents, tags, images(img, text)
-    const note = {
-      userID: user.userID,
-      date: date,
-      tags: tags,
-      content: contentRef.current.value,
-      images: imageList,
-    };
-
-    saveNote(note).then((resp) => {
-      console.log("write - " + resp.data);
-      navigate("/my");
-    });
-  };
 
   return (
     <>
