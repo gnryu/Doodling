@@ -477,5 +477,50 @@ def search():
         resp.headers.add('Content-Type', 'application/json')
         return resp
 
+@app.route('/contact', methods=['POST', 'GET', 'OPTIONS'])
+def contact():
+    if request.method == 'OPTIONS':
+        resp = jsonify({"msg" :"hello world"})
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+    
+    if request.method == 'POST':
+        json_data = request.get_json()
+
+        contactUsInfo = db.child('contactUsInfo').get()
+        if contactUsInfo.val() == None:
+            db.child('contactUsInfo').push(json_data)
+            response = {
+                "isSuccess": True,
+                "message": "\'contactUsInfo\'에 저장을 성공하였습니다.",
+                "result": {}
+            }
+        else:
+            for pastContact in contactUsInfo.val():
+                past = (contactUsInfo.val())[pastContact]
+                if past == json_data:
+                    response = {
+                        "isSuccess": False,
+                        "message": "ERROR; 이미 저장되어 있는 정보입니다.",
+                        "result": {}
+                    }
+                    resp = jsonify(response)
+                    resp.headers.add('Access-Control-Allow-Credentials', 'true')
+                    resp.headers.add('Content-Type', 'application/json')
+                    return resp
+
+            db.child('contactUsInfo').push(json_data)              
+            response = {
+                "isSuccess": True,
+                "message": "\'contactUsInfo\'에 저장을 성공하였습니다.",
+                "result": {}
+            }
+        
+        resp = jsonify(response)
+        resp.headers.add('Access-Control-Allow-Credentials', 'true')
+        resp.headers.add('Content-Type', 'application/json')
+        return resp
+
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
