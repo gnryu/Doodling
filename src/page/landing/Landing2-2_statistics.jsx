@@ -1,34 +1,36 @@
 import React from "react";
 import { AnimationOnScroll } from "react-animation-on-scroll";
 import styled from "styled-components";
-import Image from "../../img/visual_data.svg";
+import Image from "../../img/visual_data(2).svg";
 
-export default function Landing2() {
+export default function Landing22() {
   return (
     <Background>
       <Wrapper>
-        <img src={Image} width={376} />
         <TextWrapper>
-          <AnimationOnScroll animateIn="animate__fadeInDown">
-            <TextBold>15-20%</TextBold>
-          </AnimationOnScroll>
+          <RowWrapper>
+            <TextBold>40%</TextBold>
+            <TextNormal>&nbsp; of learners</TextNormal>
+          </RowWrapper>
           <TextNormal>
-            people have some of <br />
-            the symptoms of dyslexia
+            response better to <br />
+            visual than text
           </TextNormal>
-          <TextThin>following dyslexia center</TextThin>
+          <TextThin>following visual technic galliance</TextThin>
         </TextWrapper>
+        <img src={Image} width={400} />
       </Wrapper>
     </Background>
   );
 }
 
 const Background = styled.div`
-  padding: 100px 0;
-  background-color: #efefef;
+  padding: 50px 0;
+  background-color: #fff;
   height: 580px;
   display: flex;
   align-items: center;
+  margin-bottom: 50px;
 `;
 
 const Wrapper = styled.div`
@@ -44,7 +46,13 @@ const Wrapper = styled.div`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: right;
+  text-align: left;
+`;
+
+const RowWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
 `;
 
 const TextBold = styled.div`
@@ -55,7 +63,6 @@ const TextBold = styled.div`
 const TextNormal = styled.div`
   font-family: "NotoSans-Regular";
   font-size: 38px;
-  margin-top: 5px;
 `;
 
 const TextThin = styled.div`

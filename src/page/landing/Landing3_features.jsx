@@ -19,7 +19,8 @@ export default function Landing3() {
 }
 
 const Background = styled.div`
-  margin-top: 100px;
+  margin: 100px 0;
+  padding: 50px 0;
   background-color: #fff;
   height: 580px;
   display: flex;

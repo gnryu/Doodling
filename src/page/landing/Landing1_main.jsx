@@ -58,7 +58,10 @@ const Background = styled.div`
   height: 550px;
   display: flex;
   align-items: center;
+  background: no-repeat center;
   background-size: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
 `;
 
 const Wrapper = styled.div`

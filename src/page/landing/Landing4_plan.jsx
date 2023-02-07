@@ -89,6 +89,7 @@ const PlanWrapper = styled.div`
 `;
 
 const Plan = styled.div`
+  z-index: 20;
   flex-grow: 1;
   margin: 10px;
   height: 300px;
