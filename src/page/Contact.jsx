@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import BackgroundImage from "../img/background.svg";
 import IcSend from "../img/ic_send.svg";
@@ -6,20 +6,39 @@ import IcPhone from "../img/ic_phone.svg";
 import IcEmail from "../img/ic_email.svg";
 import IcGithub from "../img/ic_github.svg";
 import Divider from "../img/ic_divider.svg";
+import { sendContact } from "../api/userServics";
 
 export default function Contact() {
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const messageRef = useRef();
+
+  function send() {
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
+    const message = messageRef.current.value;
+
+    if (name == null || email == null || message == null) {
+      alert("모든 필드를 채워 어쩌꼬");
+      return;
+    }
+
+    sendContact(name, email, message).then((res) => {
+      console.log(res);
+    });
+  }
   return (
     <Background style={{ backgroundImage: `url(${BackgroundImage})` }}>
       <Wrapper>
         <Title>Contact Us</Title>
         <Desc>Feel free to contact us anytime!</Desc>
         <InputBox>
-          <Input placeholder="Name" />
-          <Input placeholder="Email" />
-          <Input placeholder="Message" />
+          <Input placeholder="Name" ref={nameRef} />
+          <Input placeholder="Email" ref={emailRef} />
+          <Input placeholder="Message" ref={messageRef} />
         </InputBox>
 
-        <Button>
+        <Button onClick={send}>
           <img src={IcSend} style={{ width: "18px" }} /> &nbsp; Send
         </Button>
 

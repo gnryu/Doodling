@@ -48,3 +48,14 @@ export const getNote = async (userID, noteID) => {
     return resp.data.result;
   }
 };
+
+// 연락 폼 보내기 (POST)
+export const sendContact = async (name, email, message) => {
+  const req = {
+    name: name,
+    email: email,
+    message: message,
+  };
+
+  return await API.post("/contact", JSON.stringify(req));
+};

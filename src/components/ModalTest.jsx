@@ -43,7 +43,7 @@ export default function ModalTest(props) {
 }
 
 const Modal = styled.div`
-  width: 500px;
+  width: 400px;
   height: 300px;
   padding: 20px;
   background: #ffffff;
