@@ -43,6 +43,7 @@ export default function CustomTags(props) {
         {tagList.length < 5 && (
           <TagNew>
             <TagInput
+              placeholder="tag"
               value={tagItem}
               onChange={(e) => {
                 setTagItem(e.target.value);

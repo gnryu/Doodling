@@ -1,11 +1,15 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useEffect, useRef, useState } from "react";
+import styled, { keyframes } from "styled-components";
 import Image from "../../img/MainImage.svg";
 import BackgroundImage from "../../img/background.svg";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../atom/User";
 import { googleLogin, login } from "../../api/userServics";
+import {
+  checkIsInViewport,
+  useWindowScrollListener,
+} from "../../utils/WindowScroll";
 
 export default function Landing1() {
   const navigate = useNavigate();
@@ -34,21 +38,45 @@ export default function Landing1() {
     navigate("/my");
   }
 
+  // Animtaion: Fade-in
+  const viewRef = useRef();
+  useEffect(() => {
+    runAnimation();
+  }, [viewRef.current === undefined]);
+
+  useWindowScrollListener(() => {
+    runAnimation();
+  });
+
+  const [show, setShow] = useState(false);
+  function runAnimation() {
+    if (checkIsInViewport(viewRef.current)) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }
+
   return (
-    <Background style={{ backgroundImage: `url(${BackgroundImage})` }}>
-      <Wrapper>
-        <TextWrapper>
-          <TextBold>Transform</TextBold>
-          <TextNormal>
-            the way you take notes, <br /> the way you learn
-          </TextNormal>
-          <TextThin>
-            created by <u>ChatGPT</u>
-          </TextThin>
-          <Button onClick={getStart}>Get started</Button>
-        </TextWrapper>
-        <img src={Image} width={376} />
-      </Wrapper>
+    <Background
+      style={{ backgroundImage: `url(${BackgroundImage})` }}
+      ref={viewRef}
+    >
+      {show && (
+        <Wrapper>
+          <TextWrapper>
+            <TextBold show={show}>Transform</TextBold>
+            <TextNormal show={show}>
+              the way you take notes, <br /> the way you learn
+            </TextNormal>
+            <TextThin show={show}>
+              created by <u>ChatGPT</u>
+            </TextThin>
+            <Button onClick={getStart}>Get started</Button>
+          </TextWrapper>
+          <img src={Image} width={376} className="fade-in" />
+        </Wrapper>
+      )}
     </Background>
   );
 }
@@ -58,7 +86,10 @@ const Background = styled.div`
   height: 550px;
   display: flex;
   align-items: center;
+  background: no-repeat center;
   background-size: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
 `;
 
 const Wrapper = styled.div`

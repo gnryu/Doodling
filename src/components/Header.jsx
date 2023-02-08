@@ -44,15 +44,14 @@ export default function Header() {
           width={134}
           style={{ cursor: "pointer" }}
           onClick={() => {
-            navigate("/");
+            if (user == null) return;
+            navigate("/my");
           }}
         />
 
         <NavWrapper>
           {user == null && (
             <>
-              <Text onClick={() => navigate("/")}>Home</Text>
-              <Text onClick={() => navigate("/about")}>About</Text>
               <Button onClick={signInG}>Sign in</Button>
             </>
           )}
@@ -82,7 +81,7 @@ const HeaderWrap = styled.div`
   margin: auto;
   background-color: white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03);
-  z-index: 10;
+  z-index: 30;
 
   width: 100%;
   height: 60px;

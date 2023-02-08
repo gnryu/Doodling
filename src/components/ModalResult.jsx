@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageRetry from "../img/ic_retry.svg";
 import ImageSave from "../img/ic_save.svg";
-import ImageExample from "../img/img_dog.svg";
 import ImageRemove from "../img/ic_close_primary.svg";
 import IcLoading from "../img/ic_loading.svg";
 import { convertImg } from "../api/imageService";
 
-export default function Modal_Result(props) {
+export default function ModalResult(props) {
   const [img, setImg] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -88,6 +87,7 @@ const Modal = styled.div`
   z-index: 20;
 
   padding: 20px;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

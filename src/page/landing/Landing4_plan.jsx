@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function Landing4() {
+export default function Landing5() {
   return (
     <Background>
       <Wrapper>
@@ -89,6 +89,7 @@ const PlanWrapper = styled.div`
 `;
 
 const Plan = styled.div`
+  z-index: 20;
   flex-grow: 1;
   margin: 10px;
   height: 300px;

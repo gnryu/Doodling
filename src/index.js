@@ -5,7 +5,7 @@ import { RecoilRoot } from "recoil";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import "./index.css";
-import About from "./page/About";
+import Contact from "./page/Contact";
 import Landing from "./page/landing/Landing";
 import Main from "./page/Main";
 import Note from "./page/Note";
@@ -20,7 +20,7 @@ root.render(
         <Header />
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/teams" element={<Teams />} />
 
           <Route path="/my" element={<Main />} />
