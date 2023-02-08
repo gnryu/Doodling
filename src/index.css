@@ -36,6 +36,26 @@
   }
 }
 
+.float {
+  animation: floating 1s infinite alternate;
+}
+
+#Vector_8,
+#Vector_30,
+#Vector_31,
+#Arm {
+  animation: floating 1s infinite alternate;
+}
+
+@keyframes floating {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, 50px);
+  }
+}
+
 /* 카드 뒤집기 */
 .flip {
   width: 130px;

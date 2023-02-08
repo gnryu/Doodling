@@ -1,11 +1,33 @@
-import React from "react";
-import { AnimationOnScroll } from "react-animation-on-scroll";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import {
+  checkIsInViewport,
+  useWindowScrollListener,
+} from "../../utils/WindowScroll";
 import Image from "../../img/visual_data(2).svg";
 
 export default function Landing22() {
+  // Animtaion: Fade-in
+  const viewRef = useRef();
+  useEffect(() => {
+    runAnimation();
+  }, [viewRef.current === undefined]);
+
+  useWindowScrollListener(() => {
+    runAnimation();
+  });
+
+  const [show, setShow] = useState(false);
+  function runAnimation() {
+    if (checkIsInViewport(viewRef.current)) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }
+
   return (
-    <Background>
+    <Background ref={viewRef}>
       <Wrapper>
         <TextWrapper>
           <RowWrapper>
@@ -18,7 +40,7 @@ export default function Landing22() {
           </TextNormal>
           <TextThin>following visual technic galliance</TextThin>
         </TextWrapper>
-        <img src={Image} width={400} />
+        {show && <img src={Image} width={400} className="fade-in" />}
       </Wrapper>
     </Background>
   );
