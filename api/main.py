@@ -209,8 +209,12 @@ def mynote():
                     tags = list()
                 else:
                     tags = ((notes.val())[note])["tags"]
-
+                
                 preview = str(((notes.val())[note])["content"])[:11]
+
+                if len(str(((notes.val())[note])["content"])) > 10:
+                    preview = preview + " ..."
+
                 noteDict = {
                     "noteID": noteID,
                     "date": date,
@@ -452,6 +456,9 @@ def search():
                 date = ((notes.val())[i])["date"]
                 tags = ((notes.val())[i])["tags"]
                 preview = str(((notes.val())[i])["content"])[:11]
+                if len(str(((notes.val())[i])["content"])) > 10:
+                    preview = preview + " ..."
+                    
                 noteDict = {
                     "noteID": noteID,
                     "date": date,
@@ -459,7 +466,7 @@ def search():
                     "preview": preview
                 }
                 searchResult.append(noteDict)
-            resultList = searchResult
+            resultList = searchResult[::-1]
 
             response = {
                 "isSuccess": True,
