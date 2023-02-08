@@ -15,7 +15,7 @@ export default function ModalTest(props) {
   function convert() {
     const text = input.current.value;
     if (text == null || text.length < 0) {
-      alert("텍스트를 입력해 주세요");
+      alert("Input text must be entered");
       return;
     }
 

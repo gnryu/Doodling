@@ -1,8 +1,7 @@
 import axios from "axios";
 import { Buffer } from "buffer";
 
-export const API_TOKEN = "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";
-const API_TOKEN2 = "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";
+const API_TOKEN = "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";
 export const convertImg = (text) => {
   const inputData = {
     inputs: `doodling-ai2, ${text}`,
@@ -13,14 +12,13 @@ export const convertImg = (text) => {
   };
 
   return new Promise((resolve, reject) => {
-    const url = `https://huggingface.co/Serena47/doodling-ai2`;
-    const url0 = `https://api-inference.huggingface.co/models/masibasi/doodling-ai`;
-    //
+    const url = `https://api-inference.huggingface.co/models/Serena47/doodling-ai2`;
+
     axios({
       url: url,
       method: "POST",
       headers: {
-        Authorization: `Bearer ${API_TOKEN2}`,
+        Authorization: `Bearer ${API_TOKEN}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },

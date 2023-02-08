@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import BackgroundImage from "../img/background.svg";
-import YSImage from "../img/iOS 이미지.svg";
+import IOSys from "../img/IOS_ys.svg";
+import IOSjm from "../img/IOS_jm.svg";
+import IOSgn from "../img/IOS_gn.svg";
+import IOSjy from "../img/IOS_jy.svg";
 
 export default function Teams() {
   return (
@@ -12,8 +15,13 @@ export default function Teams() {
           <UserBox>
             <div className="flip">
               <div className="card">
-                <UserImg className="front" src={YSImage} />
-                <UserInfo className="back">
+                <UserImg className="front" src={IOSys} />
+                <UserInfo
+                  className="back"
+                  onClick={() =>
+                    window.open("https://github.com/yusiny", "_blank")
+                  }
+                >
                   Frontend <br /> Developer
                 </UserInfo>
               </div>
@@ -24,8 +32,13 @@ export default function Teams() {
           <UserBox>
             <div className="flip">
               <div className="card">
-                <UserImg className="front" src={YSImage} />
-                <UserInfo className="back">
+                <UserImg className="front" src={IOSgn} />
+                <UserInfo
+                  className="back"
+                  onClick={() =>
+                    window.open("https://github.com/gnryu", "_blank")
+                  }
+                >
                   Backend <br /> Developer
                 </UserInfo>
               </div>
@@ -36,9 +49,14 @@ export default function Teams() {
           <UserBox>
             <div className="flip">
               <div className="card">
-                <UserImg className="front" src={YSImage} />
-                <UserInfo className="back">
-                  Frontend <br /> Developer
+                <UserImg className="front" src={IOSjm} />
+                <UserInfo
+                  className="back"
+                  onClick={() =>
+                    window.open("https://github.com/masibasi", "_blank")
+                  }
+                >
+                  Model <br /> Developer
                 </UserInfo>
               </div>
             </div>
@@ -48,9 +66,14 @@ export default function Teams() {
           <UserBox>
             <div className="flip">
               <div className="card">
-                <UserImg className="front" src={YSImage} />
-                <UserInfo className="back">
-                  Frontend <br /> Developer
+                <UserImg className="front" src={IOSjy} />
+                <UserInfo
+                  className="back"
+                  onClick={() =>
+                    window.open("https://github.com/ZN-Sellena2000", "_blank")
+                  }
+                >
+                  Model <br /> Developer
                 </UserInfo>
               </div>
             </div>
@@ -135,6 +158,7 @@ const UserInfo = styled.div`
 
   box-shadow: 0px 3px 3px 0.5px rgba(0, 0, 0, 0.05);
   border-radius: 30px;
+  cursor: pointer;
 `;
 
 const UserName = styled.div`

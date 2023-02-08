@@ -19,12 +19,13 @@ export default function Contact() {
     const message = messageRef.current.value;
 
     if (name == null || email == null || message == null) {
-      alert("모든 필드를 채워 어쩌꼬");
+      alert("Every field must be filled!");
       return;
     }
 
     sendContact(name, email, message).then((res) => {
-      console.log(res);
+      alert("Send successfully!");
+      window.location.reload();
     });
   }
   return (

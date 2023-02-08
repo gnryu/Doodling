@@ -52,8 +52,6 @@ export default function Header() {
         <NavWrapper>
           {user == null && (
             <>
-              <Text onClick={() => navigate("/")}>Home</Text>
-              <Text onClick={() => navigate("/about")}>About</Text>
               <Button onClick={signInG}>Sign in</Button>
             </>
           )}
