@@ -28,5 +28,5 @@ const Point = styled.img`
   width: 40%;
   position: absolute;
   right: 0;
-  top: 3400px;
+  top: 3300px;
 `;

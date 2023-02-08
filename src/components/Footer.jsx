@@ -23,7 +23,7 @@ export default function Footer() {
           <Menu onClick={() => navigate("/")}>Home</Menu>
           <Menu onClick={() => navigate("/")}>About</Menu>
           <Menu onClick={() => navigate("/teams")}>Teams</Menu>
-          <Menu>Contact</Menu>
+          <Menu onClick={() => navigate("/contact")}>Contact</Menu>
 
           {user != null && (
             <Menu style={{ marginLeft: "5px" }} onClick={logout}>
