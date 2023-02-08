@@ -1,6 +1,8 @@
 import React from "react";
+import * as ReactDOMServer from "react-dom/server";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import "../../css/swiper.css";
 import { Pagination } from "swiper";
 import SwiperCore, { Autoplay } from "swiper";
 import styled from "styled-components";
@@ -10,9 +12,15 @@ import ImageNote from "../../img/notepad.svg";
 
 export default function Swiper_Features() {
   SwiperCore.use([Autoplay, Pagination]);
+  const params = {
+    loop: true,
+    pagination: {
+      clickable: true,
+    },
+  };
 
   return (
-    <Swiper loop={true} pagination={true}>
+    <Swiper {...params}>
       <SwiperSlide>
         <SlideWrapper>
           <img src={ImageWrite} width={250} />
