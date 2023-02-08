@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function Landing4() {
+export default function Landing5() {
   return (
     <Background>
       <Wrapper>

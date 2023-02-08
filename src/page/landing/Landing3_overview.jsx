@@ -4,19 +4,22 @@ import Image from "../../img/logoWB.svg";
 import BackgroundImage from "../../img/backgroundP.svg";
 import ModalTest from "../../components/ModalTest";
 
-export default function Landing3Overview() {
+export default function Landing3() {
   const [show, setShow] = useState(false);
   const [classes, setClasses] = useState("");
+  const [classesB, setClassesB] = useState("float");
 
   function showModal() {
     setClasses("fade-in");
     setShow(true);
+    setClassesB("");
   }
 
   function closeModal() {
     setClasses("fade-out");
     setTimeout(() => {
       setShow(false);
+      setClassesB("float");
     }, 1000);
   }
 
@@ -29,7 +32,9 @@ export default function Landing3Overview() {
           <TextThin>
             AI note-taking assistant service <br /> for dyslexia students
           </TextThin>
-          <Button onClick={showModal}>Try now</Button>
+          <Button onClick={showModal} className={classesB}>
+            Try now
+          </Button>
         </TextWrapper>
 
         {show && <ModalTest classes={classes} closeModal={closeModal} />}

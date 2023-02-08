@@ -6,7 +6,7 @@ import {
   useWindowScrollListener,
 } from "../../utils/WindowScroll";
 
-export default function Landing2() {
+export default function Landing2_1() {
   // Animtaion: Fade-in
   const viewRef = useRef();
   useEffect(() => {

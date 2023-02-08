@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ImageRemove from "../img/ic_close_primary.svg";
 
-export default function Modal_Image(props) {
+export default function ModalImage(props) {
   function closeModal() {
     props.closeModal();
   }
@@ -43,6 +43,7 @@ const Modal = styled.div`
   z-index: 20;
 
   padding: 20px;
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

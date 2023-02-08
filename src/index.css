@@ -21,9 +21,11 @@
 @keyframes fadein {
   from {
     opacity: 0;
+    transform: translate3d(0, -10%, 0);
   }
   to {
     opacity: 1;
+    transform: translateZ(0);
   }
 }
 
@@ -37,14 +39,7 @@
 }
 
 .float {
-  animation: floating 1s infinite alternate;
-}
-
-#Vector_8,
-#Vector_30,
-#Vector_31,
-#Arm {
-  animation: floating 1s infinite alternate;
+  animation: floating 1.5s infinite alternate;
 }
 
 @keyframes floating {
@@ -52,7 +47,7 @@
     transform: translate(0, 0);
   }
   100% {
-    transform: translate(0, 50px);
+    transform: translate(0, 5px);
   }
 }
 

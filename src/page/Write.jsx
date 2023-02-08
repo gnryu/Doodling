@@ -3,8 +3,8 @@ import styled from "styled-components";
 import CustomTags from "../components/CustomTags";
 import IcSave from "../img/ic_saveP.svg";
 import ImageEditable from "../components/ImageEditable";
-import Modal_Image from "../components/Modal_Image";
-import Modal_Result from "../components/Modal_Result";
+import ModalImage from "../components/ModalImage";
+import ModalResult from "../components/ModalResult";
 import { useRecoilValue } from "recoil";
 import { userState } from "../atom/User";
 import { saveNote } from "../api/noteService";
@@ -142,10 +142,10 @@ export default function Write() {
       </Wrapper>
 
       {showModal && (
-        <Modal_Result text={text} closeModal={closeModal} addImage={addImage} />
+        <ModalResult text={text} closeModal={closeModal} addImage={addImage} />
       )}
       {showImg != null && (
-        <Modal_Image
+        <ModalImage
           text={showImg.text}
           img={showImg.img}
           closeModal={closeModal}
@@ -196,6 +196,7 @@ const SaveBox = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+  cursor: pointer;
 `;
 
 const Body = styled.div`

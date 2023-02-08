@@ -6,7 +6,7 @@ import {
 } from "../../utils/WindowScroll";
 import Image from "../../img/visual_data(2).svg";
 
-export default function Landing22() {
+export default function Landing2_2() {
   // Animtaion: Fade-in
   const viewRef = useRef();
   useEffect(() => {

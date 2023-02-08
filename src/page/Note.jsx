@@ -5,9 +5,8 @@ import styled from "styled-components";
 import { getNote } from "../api/userServics";
 import { deleteNote } from "../api/noteService";
 import { userState } from "../atom/User";
-import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
-import Modal_Image from "../components/Modal_Image";
+import ModalImage from "../components/ModalImage";
 import Tags from "../components/Tags";
 import IcRemove from "../img/ic_remove (1).svg";
 
@@ -83,7 +82,7 @@ export default function Note() {
         )}
       </Wrapper>
       {showImg != null && (
-        <Modal_Image
+        <ModalImage
           text={showImg.text}
           img={showImg.img}
           closeModal={closeModal}

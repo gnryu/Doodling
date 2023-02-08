@@ -9,6 +9,16 @@ export default function Footer() {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
 
+  // Home으로 이동
+  function goHome() {
+    if (user == null) {
+      alert("로그인 후 이용 가능합니다.");
+      return;
+    }
+
+    navigate("/my");
+  }
+
   // 로그아웃
   const logout = () => {
     setUser(null);
@@ -20,7 +30,7 @@ export default function Footer() {
     <Background>
       <Wrapper>
         <MenuWrapper>
-          <Menu onClick={() => navigate("/")}>Home</Menu>
+          <Menu onClick={() => goHome()}>Home</Menu>
           <Menu onClick={() => navigate("/")}>About</Menu>
           <Menu onClick={() => navigate("/teams")}>Teams</Menu>
           <Menu onClick={() => navigate("/contact")}>Contact</Menu>

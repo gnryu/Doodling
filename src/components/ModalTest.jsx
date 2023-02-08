@@ -20,6 +20,7 @@ export default function ModalTest(props) {
     }
 
     setIsLoading(true);
+    setImg();
     convertImg(text).then((img) => {
       console.log(img);
 

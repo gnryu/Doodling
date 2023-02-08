@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Swiper_Features from "./Swiper_Features";
 
-export default function Landing3() {
+export default function Landing4() {
   return (
     <Background>
       <Wrapper>
