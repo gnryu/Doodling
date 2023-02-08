@@ -21,7 +21,7 @@ export default function Footer() {
       <Wrapper>
         <MenuWrapper>
           <Menu onClick={() => navigate("/")}>Home</Menu>
-          <Menu onClick={() => navigate("/about")}>About</Menu>
+          <Menu onClick={() => navigate("/")}>About</Menu>
           <Menu onClick={() => navigate("/teams")}>Teams</Menu>
           <Menu>Contact</Menu>
 
