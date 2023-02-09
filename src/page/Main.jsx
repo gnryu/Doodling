@@ -20,6 +20,7 @@ export default function Main() {
   // 검색 상태 (input <-> div)
   const [isSearching, setIsSearching] = useState();
   const [searchWord, setSearchWord] = useState("");
+  const [empty, setEmpty] = useState(false);
 
   // 노트 전체 조회하기 API
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function Main() {
 
   // 노트 검색하기 API
   function search() {
+    setEmpty(false);
     searchTag(user.userID, searchWord).then((notesO) => {
       if (notesO === undefined) return;
 
@@ -37,10 +39,12 @@ export default function Main() {
 
       setNoteList(notes);
       setIsSearching(searchWord);
+      setEmpty(notes.length == 0);
     });
   }
 
   function getNoteAPI() {
+    setEmpty(false);
     getNotes(user.userID).then((notesO) => {
       const notesJS = JSON.stringify(notesO);
       const notes = JSON.parse(notesJS);
@@ -84,13 +88,12 @@ export default function Main() {
           </>
         )}
       </SearchWrapper>
-      <Button onClick={() => navigate("/write")}>NEW</Button>
       <MemoWrapper>
+        {searchWord.length <= 0 && <NewNote />}
         {noteList.map((note, index) => {
           return <Note key={index} note={note} />;
         })}
-
-        {noteList.length <= 0 && <Text>Make a new note ☺</Text>}
+        {empty && <Text>There's no such tag 😅</Text>}
       </MemoWrapper>
     </Wrapper>
   );
@@ -176,7 +179,7 @@ const Button = styled.div`
 
 const MemoWrapper = styled.div`
   width: 100%;
-  margin-top: 10px;
+  margin-top: 30px;
 
   display: flex;
   flex-direction: row;

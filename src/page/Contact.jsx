@@ -54,7 +54,7 @@ export default function Contact() {
             </ContactItem>
             <ContactItem>
               <img src={IcEmail} style={{ width: "24px" }} />
-              &nbsp; yusinkim.or@gmail.com
+              &nbsp; doodling.tti@gmail.com
             </ContactItem>
             <ContactItem>
               <img src={IcGithub} style={{ width: "24px" }} />
