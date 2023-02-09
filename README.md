@@ -4,13 +4,13 @@
 Most people take notes while studying. However, 1 in 10 people worldwide have dyslexia, which makes it difficult for them to study. Therefore, this project was carried out in the hope that it would help students with dyslexia to study through a web application that converts sentences into pictures.
 ## Requirements
 -	Apply a good UX design using React  
--	Fast generative image using text  
--	Save multiple images at one note  
--	Save text and image at the same time  
--	Generate accurate and simple image  
+  -	Search function using tags  
+  -	Save multiple images at one note  
+  -	Save text and image at the same time  
 -	Take convenient and useful notes  
--	Change the image if the user doesn't like it  
--	Search function using tags  
+  -	Fast generative image using text  
+  -	Generate accurate and simple image  
+  -	Change the image if the user doesn't like it  
 
 ## User Experience
 - The user proceeds to log in.  
