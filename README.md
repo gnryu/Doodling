@@ -3,12 +3,12 @@
 ## Purpose of the Development
 Most people take notes while studying. However, 1 in 10 people worldwide have dyslexia, which makes it difficult for them to study. Therefore, this project was carried out in the hope that it would help students with dyslexia to study through a web application that converts sentences into pictures.
 ## Requirements
--	Apply a good UX design using React  
-  -	Search function using tags  
+- Apply a good UX design using React  
+  - Search function using tags  
   -	Save multiple images at one note  
   -	Save text and image at the same time  
--	Take convenient and useful notes  
-  -	Fast generative image using text  
+- Take convenient and useful notes  
+  - Fast generative image using text  
   -	Generate accurate and simple image  
   -	Change the image if the user doesn't like it  
 
