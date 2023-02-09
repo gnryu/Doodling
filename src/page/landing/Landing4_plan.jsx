@@ -31,7 +31,19 @@ export default function Landing5() {
               </PlanDetail>
             </PlanTextWrapper>
 
-            <Button> Buy now </Button>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "baseline",
+                }}
+              >
+                <PlanTitle>$2.99</PlanTitle>
+                <PlanDetail>&nbsp;/m</PlanDetail>
+              </div>
+              <Button> Buy now </Button>
+            </div>
           </Plan>
           <Plan>
             <PlanTextWrapper>
@@ -43,7 +55,19 @@ export default function Landing5() {
               </PlanDetail>
             </PlanTextWrapper>
 
-            <Button onClick={() => navigate("/contact")}> Contact us</Button>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "baseline",
+                }}
+              >
+                <PlanTitle>$75.5k</PlanTitle>
+                <PlanDetail>&nbsp;/m</PlanDetail>
+              </div>
+              <Button onClick={() => navigate("/contact")}> Contact us</Button>
+            </div>
           </Plan>
         </PlanWrapper>
       </Wrapper>
@@ -124,7 +148,7 @@ const PlanDetail = styled.div`
 `;
 
 const Button = styled.div`
-  margin-top: 50px;
+  margin-top: 20px;
   width: fit-content;
   border: 2px solid #2b234a;
   border-radius: 5px;
