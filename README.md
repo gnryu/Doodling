@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# Doodling
+### Jan 3, 2023 ~ Feb 9, 2023
+## Purpose of the Development
+Most people take notes while studying. However, 1 in 10 people worldwide have dyslexia, which makes it difficult for them to study. Therefore, this project was carried out in the hope that it would help students with dyslexia to study through a web application that converts sentences into pictures.
+## Requirements
+-	Apply a good UX design using React  
+-	Fast generative image using text  
+-	Save multiple images at one note  
+-	Save text and image at the same time  
+-	Generate accurate and simple image  
+-	Take convenient and useful notes  
+-	Change the image if the user doesn't like it  
+-	Search function using tags  
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## User Experience
+- The user proceeds to log in.  
+- Users can create new notes or browse previously created notes.  
+  - If user make new note, 
+    - Click the new note button and they cant set tags and type the notes.
+    - If they wanted to convert text to image, it can be executed by dragging a letter and designating it as a block and pressing the convert button.
+    - If they like the result of image, they can download it. If they doesn't they cant change the image.
+    - if you click the saved image, there are text and the image at the same page
+  - If user wants to browse notes,
+     - They can just click the dark button which they want to browse.
+     - They can see the kext notes on the left side and image notes in the right.
+     - If the user click the image, the image pops up with text.
+  - If the user wants to delete notes, there are two ways to delete it.
+    - Click the trash button on the browsing page.
+    - Click the trash button on the note page.
 
-## Available Scripts
+## Validation Model
+As a result of generating 5 images for 5 sentences and conducting a survey to 36 people, an average score was recorded as 3.6 out of 5 indicating that the performance of the model was not bad but it is not good enough. In the future, additional learning is planned to improve the performance of the model.
 
-In the project directory, you can run:
+## Publish
+Since the web page runs only locally, you must download and run the entire file. We plan to distribute it through the server in the future.
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Distribution of roles
+#### Gina Ryu : Back-end Developer
+-	Flask  
+-	Fire Base  
+#### Jimin Lee : Deep Learning model Developer
+-	Keras  
+-	Pytorch
+#### Jiyeon Lee : Deep Learning model Developer
+-	Keras  
+-	Pytorch
+#### Yooshin Kim
+-	React  
+-	Fire Base
