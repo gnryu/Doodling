@@ -44,7 +44,7 @@ export default function Teams() {
               </div>
             </div>
             <UserName>Gina Ryu</UserName>
-            <UserEmail>yusinkim.or@gmail.com</UserEmail>
+            <UserEmail>gnnryu@gmail.com</UserEmail>
           </UserBox>
           <UserBox>
             <div className="flip">
@@ -61,7 +61,7 @@ export default function Teams() {
               </div>
             </div>
             <UserName>Jimin Lee</UserName>
-            <UserEmail>yusinkim.or@gmail.com</UserEmail>
+            <UserEmail>jimin_lee98.or@gmail.com</UserEmail>
           </UserBox>
           <UserBox>
             <div className="flip">
@@ -78,7 +78,7 @@ export default function Teams() {
               </div>
             </div>
             <UserName>Jiyeon Lee</UserName>
-            <UserEmail>yusinkim.or@gmail.com</UserEmail>
+            <UserEmail>jylee4747@gmail.com</UserEmail>
           </UserBox>
         </Body>
       </Wrapper>

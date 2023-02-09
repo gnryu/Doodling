@@ -10,6 +10,8 @@ import {
   checkIsInViewport,
   useWindowScrollListener,
 } from "../../utils/WindowScroll";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useInterval } from "../../utils/UseInterval";
 
 export default function Landing1() {
   const navigate = useNavigate();
@@ -57,6 +59,13 @@ export default function Landing1() {
     }
   }
 
+  // 캐치프레이즈
+  const [slogan, setSlogan] = useState(true);
+
+  useInterval(() => {
+    setSlogan(!slogan);
+  }, 5000);
+
   return (
     <Background
       style={{ backgroundImage: `url(${BackgroundImage})` }}
@@ -65,11 +74,26 @@ export default function Landing1() {
       {show && (
         <Wrapper>
           <TextWrapper>
-            <TextBold show={show}>Transform</TextBold>
-            <TextNormal show={show}>
-              the way you take notes, <br /> the way you learn
-            </TextNormal>
-            <TextThin show={show}>
+            {slogan && (
+              <>
+                <TextBold className="fade-inout">Transform</TextBold>
+                <TextNormal className="fade-inout">
+                  the way you take notes,
+                  <br /> the way you learn
+                </TextNormal>
+              </>
+            )}
+            {!slogan && (
+              <>
+                <TextBold className="fade-inout">Unlock</TextBold>
+                <TextNormal className="fade-inout">
+                  the full potential of students
+                  <br /> with visual learning
+                </TextNormal>
+              </>
+            )}
+
+            <TextThin>
               created by <u>ChatGPT</u>
             </TextThin>
             <Button onClick={getStart}>Get started</Button>
@@ -104,6 +128,7 @@ const Wrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
 `;
