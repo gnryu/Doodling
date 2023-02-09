@@ -3,8 +3,8 @@ import styled from "styled-components";
 import CustomTags from "../components/CustomTags";
 import IcSave from "../img/ic_saveP.svg";
 import ImageEditable from "../components/ImageEditable";
-import Modal_Image from "../components/Modal_Image";
-import Modal_Result from "../components/Modal_Result";
+import ModalImage from "../components/ModalImage";
+import ModalResult from "../components/ModalResult";
 import { useRecoilValue } from "recoil";
 import { userState } from "../atom/User";
 import { saveNote } from "../api/noteService";
@@ -12,6 +12,42 @@ import { useNavigate } from "react-router-dom";
 
 export default function Write() {
   const navigate = useNavigate();
+
+  // (1) Date, NoteId 받아오기
+  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
+
+  // (2) Drag Text
+  const [text, setText] = useState("");
+  const onDragged = () => {
+    const text = window.getSelection().toString();
+    if (text.length <= 0) return;
+
+    setText(text);
+  };
+
+  // (3) Save
+  const [tags, setTags] = useState([]);
+  const contentRef = useRef();
+  const user = useRecoilValue(userState);
+  function getTags(tagList) {
+    setTags(tagList);
+  }
+
+  const save = () => {
+    // userId, noteId, date, contents, tags, images(img, text)
+    const note = {
+      userID: user.userID,
+      date: date,
+      tags: tags,
+      content: contentRef.current.value,
+      images: imageList,
+    };
+
+    saveNote(note).then((resp) => {
+      console.log("write - " + resp.data);
+      navigate("/my");
+    });
+  };
 
   // Modal(Editable)
   const [showModal, setShowModal] = useState(false);
@@ -52,6 +88,7 @@ export default function Write() {
     const newImageList = [...imageList];
     newImageList.push(data);
 
+    setText("");
     setImageList(newImageList);
   }
 
@@ -60,42 +97,6 @@ export default function Write() {
     newImageList.splice(idx, 1);
     setImageList(newImageList);
   }
-
-  // (1) Date, NoteId 받아오기
-  const date = new Date().toISOString().substr(0, 10).replace("T", " ");
-
-  // (2) Drag Text
-  const [text, setText] = useState("");
-  const onDragged = () => {
-    const text = window.getSelection().toString();
-    if (text.length <= 0) return;
-
-    setText(text);
-  };
-
-  // (3) Save
-  const [tags, setTags] = useState([]);
-  const contentRef = useRef();
-  const user = useRecoilValue(userState);
-  function getTags(tagList) {
-    setTags(tagList);
-  }
-
-  const save = () => {
-    // userId, noteId, date, contents, tags, images(img, text)
-    const note = {
-      userID: user.userID,
-      date: date,
-      tags: tags,
-      content: contentRef.current.value,
-      images: imageList,
-    };
-
-    saveNote(note).then((resp) => {
-      console.log("write - " + resp.data);
-      navigate("/my");
-    });
-  };
 
   return (
     <>
@@ -141,10 +142,10 @@ export default function Write() {
       </Wrapper>
 
       {showModal && (
-        <Modal_Result text={text} closeModal={closeModal} addImage={addImage} />
+        <ModalResult text={text} closeModal={closeModal} addImage={addImage} />
       )}
       {showImg != null && (
-        <Modal_Image
+        <ModalImage
           text={showImg.text}
           img={showImg.img}
           closeModal={closeModal}
@@ -176,11 +177,13 @@ const Top = styled.div`
 `;
 
 const DateText = styled.div`
+  width: 90px;
   font-family: "NotoSans-Semibold";
   font-size: 14px;
 `;
 
 const SaveBox = styled.div`
+  width: 50px;
   height: 100%;
 
   font-family: "NotoSans-Semibold";
@@ -193,6 +196,7 @@ const SaveBox = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+  cursor: pointer;
 `;
 
 const Body = styled.div`
@@ -293,6 +297,10 @@ const Text = styled.div`
 
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 1030px) {
+    height: 15%;
+  }
 `;
 
 const InputText = styled.div`

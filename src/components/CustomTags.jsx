@@ -35,7 +35,7 @@ export default function CustomTags(props) {
         {tagList.map((tagItem, index) => {
           return (
             <TagItem key={index}>
-              <Text>{tagItem}</Text>
+              <Text>#{tagItem}</Text>
               <Delete src={ImageRemove} onClick={() => deleteItem(index)} />
             </TagItem>
           );
@@ -43,6 +43,7 @@ export default function CustomTags(props) {
         {tagList.length < 5 && (
           <TagNew>
             <TagInput
+              placeholder="tag"
               value={tagItem}
               onChange={(e) => {
                 setTagItem(e.target.value);
@@ -58,27 +59,14 @@ export default function CustomTags(props) {
 }
 
 const Wrapper = styled.div`
-  margin-left: 10px;
+  width: calc(100% - (160px));
+  overflow-x: scroll;
 
   display: flex;
   flex-direction: row;
 
-  @media screen and (max-width: 1030px) {
-    width: 400px;
-    overflow-x: scroll;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  @media screen and (max-width: 700px) {
-    width: 200px;
-    overflow-x: scroll;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
@@ -110,6 +98,7 @@ const Text = styled.div`
   font-size: 14px;
   color: #fff;
   line-height: 2;
+  white-space: nowrap;
 `;
 
 const Delete = styled.img`

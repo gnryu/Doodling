@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-export default function Landing4() {
+export default function Landing5() {
+  const navigate = useNavigate();
+
   return (
     <Background>
       <Wrapper>
@@ -28,7 +31,19 @@ export default function Landing4() {
               </PlanDetail>
             </PlanTextWrapper>
 
-            <Button> Buy now </Button>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "baseline",
+                }}
+              >
+                <PlanTitle>$2.99</PlanTitle>
+                <PlanDetail>&nbsp;/m</PlanDetail>
+              </div>
+              <Button> Buy now </Button>
+            </div>
           </Plan>
           <Plan>
             <PlanTextWrapper>
@@ -40,7 +55,19 @@ export default function Landing4() {
               </PlanDetail>
             </PlanTextWrapper>
 
-            <Button> Contact us</Button>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "baseline",
+                }}
+              >
+                <PlanTitle>$75.5k</PlanTitle>
+                <PlanDetail>&nbsp;/m</PlanDetail>
+              </div>
+              <Button onClick={() => navigate("/contact")}> Contact us</Button>
+            </div>
           </Plan>
         </PlanWrapper>
       </Wrapper>
@@ -62,6 +89,7 @@ const Background = styled.div`
 const Wrapper = styled.div`
   width: 1000px;
   margin: 0 auto;
+  padding: 0 50px;
   display: flex;
   flex-direction: column;
   margin-top: 50px;
@@ -88,6 +116,7 @@ const PlanWrapper = styled.div`
 `;
 
 const Plan = styled.div`
+  z-index: 20;
   flex-grow: 1;
   margin: 10px;
   height: 300px;
@@ -119,7 +148,7 @@ const PlanDetail = styled.div`
 `;
 
 const Button = styled.div`
-  margin-top: 50px;
+  margin-top: 20px;
   width: fit-content;
   border: 2px solid #2b234a;
   border-radius: 5px;

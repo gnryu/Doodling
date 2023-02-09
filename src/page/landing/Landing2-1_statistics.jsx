@@ -1,17 +1,37 @@
-import React from "react";
-import { AnimationOnScroll } from "react-animation-on-scroll";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Image from "../../img/visual_data.svg";
+import {
+  checkIsInViewport,
+  useWindowScrollListener,
+} from "../../utils/WindowScroll";
 
-export default function Landing2() {
+export default function Landing2_1() {
+  // Animtaion: Fade-in
+  const viewRef = useRef();
+  useEffect(() => {
+    runAnimation();
+  }, [viewRef.current === undefined]);
+
+  useWindowScrollListener(() => {
+    runAnimation();
+  });
+
+  const [show, setShow] = useState(false);
+  function runAnimation() {
+    if (checkIsInViewport(viewRef.current)) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }
+
   return (
-    <Background>
+    <Background ref={viewRef}>
       <Wrapper>
-        <img src={Image} width={376} />
+        {show && <img src={Image} width={376} className="fade-in" />}
         <TextWrapper>
-          <AnimationOnScroll animateIn="animate__fadeInDown">
-            <TextBold>15-20%</TextBold>
-          </AnimationOnScroll>
+          <TextBold>15-20%</TextBold>
           <TextNormal>
             people have some of <br />
             the symptoms of dyslexia
@@ -24,7 +44,6 @@ export default function Landing2() {
 }
 
 const Background = styled.div`
-  margin-top: 100px;
   padding: 100px 0;
   background-color: #efefef;
   height: 580px;
@@ -33,7 +52,9 @@ const Background = styled.div`
 `;
 
 const Wrapper = styled.div`
+  width: 1000px;
   margin: 0 auto;
+  padding: 0 50px;
   display: flex;
   flex-direction: row;
   color: #2b234a;

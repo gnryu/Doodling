@@ -1,11 +1,9 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { auth } from "../fbase";
 import LogoIcon from "../img/Logo_with_desc.svg";
 import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/userServics";
+import { googleLogin, login } from "../api/userServics";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
 
@@ -22,24 +20,20 @@ export default function Header() {
     }
   }, []);
 
-  // 구글 로그인
-  function signInGoogle() {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((data) => {
-        const name = data.user.displayName;
-        const email = data.user.email;
+  // 구글 로그인 API -> 로그인 API
+  function signInG() {
+    googleLogin().then((data) => {
+      const req = {
+        userName: data.user.displayName,
+        userEmail: data.user.email,
+      };
 
-        login(name, email).then((user) => {
-          const userJson = JSON.stringify(user);
-          localStorage.setItem("user", userJson);
-          setUser(user);
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Google Sign in failed!");
+      login(req).then((user) => {
+        const userJson = JSON.stringify(user);
+        localStorage.setItem("user", userJson);
+        setUser(user);
       });
+    });
   }
 
   return (
@@ -50,23 +44,27 @@ export default function Header() {
           width={134}
           style={{ cursor: "pointer" }}
           onClick={() => {
-            navigate("/");
+            if (user == null) return;
+            navigate("/my");
           }}
         />
 
         <NavWrapper>
           {user == null && (
             <>
-              <Text onClick={() => navigate("/")}>Home</Text>
-              <Text onClick={() => navigate("/about")}>About</Text>
-              <Button onClick={signInGoogle}>Sign in</Button>
+              <Button onClick={signInG}>Sign in</Button>
             </>
           )}
 
           {user != null && (
             <>
-              <Text style={{ marginRight: "15px" }}>{user.userName}</Text>
-              <UserImage src={IcUser} />
+              <Text
+                style={{ marginRight: "15px" }}
+                onClick={() => navigate("/my")}
+              >
+                {user.userName}
+              </Text>
+              <UserImage src={IcUser} onClick={() => navigate("/my")} />
             </>
           )}
         </NavWrapper>
@@ -83,7 +81,7 @@ const HeaderWrap = styled.div`
   margin: auto;
   background-color: white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03);
-  z-index: 10;
+  z-index: 30;
 
   width: 100%;
   height: 60px;

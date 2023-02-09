@@ -5,9 +5,8 @@ import styled from "styled-components";
 import { getNote } from "../api/userServics";
 import { deleteNote } from "../api/noteService";
 import { userState } from "../atom/User";
-import CustomTags from "../components/CustomTags";
 import Image from "../components/Image";
-import Modal_Image from "../components/Modal_Image";
+import ModalImage from "../components/ModalImage";
 import Tags from "../components/Tags";
 import IcRemove from "../img/ic_remove (1).svg";
 
@@ -17,16 +16,16 @@ export default function Note() {
   // 전달받은 NoteID
   const { state } = useLocation();
   const user = useRecoilValue(userState);
-  //console.log(state + " " + user.userID);
+  console.log(state + " " + user);
 
   // 노트 상세 조회 API
   const [note, setNote] = useState();
   useEffect(() => {
+    if (user == null) return;
     getNote(user.userID, state).then((noteO) => {
       const noteJS = JSON.stringify(noteO);
       const result = JSON.parse(noteJS);
       console.log(result.detail);
-
       setNote(result.detail);
     });
   }, [user]);
@@ -83,7 +82,7 @@ export default function Note() {
         )}
       </Wrapper>
       {showImg != null && (
-        <Modal_Image
+        <ModalImage
           text={showImg.text}
           img={showImg.img}
           closeModal={closeModal}
@@ -115,6 +114,7 @@ const Top = styled.div`
 `;
 
 const DateText = styled.div`
+  width: 90px;
   font-family: "NotoSans-Semibold";
   font-size: 14px;
 `;

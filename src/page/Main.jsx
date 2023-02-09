@@ -18,23 +18,19 @@ export default function Main() {
   const user = useRecoilValue(userState);
 
   // 검색 상태 (input <-> div)
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState();
+  const [searchWord, setSearchWord] = useState("");
+  const [empty, setEmpty] = useState(false);
 
   // 노트 전체 조회하기 API
   useEffect(() => {
-    if (user == null || isSearching == true) return;
-    getNotes(user.userID).then((notesO) => {
-      const notesJS = JSON.stringify(notesO);
-      const notes = JSON.parse(notesJS);
-
-      setNoteList(notes);
-    });
-  }, [user, isSearching]);
+    if (user == null) return;
+    getNoteAPI();
+  }, [user]);
 
   // 노트 검색하기 API
-  const searchBar = useRef();
   function search() {
-    const searchWord = searchBar.current.value;
+    setEmpty(false);
     searchTag(user.userID, searchWord).then((notesO) => {
       if (notesO === undefined) return;
 
@@ -42,19 +38,31 @@ export default function Main() {
       const notes = JSON.parse(notesJS);
 
       setNoteList(notes);
-      setIsSearching(true);
+      setIsSearching(searchWord);
+      setEmpty(notes.length == 0);
+    });
+  }
+
+  function getNoteAPI() {
+    setEmpty(false);
+    getNotes(user.userID).then((notesO) => {
+      const notesJS = JSON.stringify(notesO);
+      const notes = JSON.parse(notesJS);
+
+      setNoteList(notes);
     });
   }
 
   return (
     <Wrapper>
       <SearchWrapper>
-        {!isSearching && (
+        {isSearching == null && (
           <>
             <Search
               type="text"
               placeholder="Search tags..."
-              ref={searchBar}
+              value={searchWord}
+              onChange={(e) => setSearchWord(e.target.value)}
               onKeyDown={(e) => {
                 if (e.keyCode == 13) search();
               }}
@@ -63,24 +71,29 @@ export default function Main() {
           </>
         )}
 
-        {isSearching && (
+        {isSearching != null && (
           <>
-            <SearchResult onClick={() => setIsSearching(false)}>
-              animal
+            <SearchResult onClick={() => setIsSearching(null)}>
+              {searchWord}
             </SearchResult>
             <SearchImage
               src={ImageCancel}
               style={{ width: "14px", marginRight: "15px" }}
-              onClick={() => setIsSearching(false)}
+              onClick={() => {
+                setIsSearching(null);
+                setSearchWord("");
+                getNoteAPI();
+              }}
             />
           </>
         )}
       </SearchWrapper>
       <MemoWrapper>
-        <NewNote />
+        {searchWord.length <= 0 && <NewNote />}
         {noteList.map((note, index) => {
           return <Note key={index} note={note} />;
         })}
+        {empty && <Text>There's no such tag 😅</Text>}
       </MemoWrapper>
     </Wrapper>
   );
@@ -134,7 +147,8 @@ const SearchResult = styled.div`
 
   font-family: "NotoSans-Regular";
   font-size: 18px;
-  line-height: 2;
+  display: flex;
+  align-items: center;
 `;
 
 const SearchImage = styled.img`
@@ -149,6 +163,20 @@ const SearchImage = styled.img`
   cursor: pointer;
 `;
 
+const Button = styled.div`
+  font-family: "NotoSans-Bold";
+  font-size: 14px;
+  color: #2b234a;
+  background: #ffffff;
+  border: 2px solid #2b234a;
+  border-radius: 10px;
+
+  padding: 5px 25px;
+  margin-top: 10px;
+  align-self: end;
+  cursor: pointer;
+`;
+
 const MemoWrapper = styled.div`
   width: 100%;
   margin-top: 30px;
@@ -156,4 +184,13 @@ const MemoWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+`;
+
+const Text = styled.div`
+  width: 100%;
+  font-family: "NotoSans-Regular";
+  font-size: 18px;
+  color: #2b234ab1;
+  text-align: center;
+  margin-top: 100px;
 `;

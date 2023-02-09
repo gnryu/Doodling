@@ -1,17 +1,17 @@
 import { async } from "@firebase/util";
-import { useSetRecoilState } from "recoil";
-import { userState } from "../atom/User";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import API from "../axios";
+import { auth } from "../fbase";
+
+// 구글 로그인
+export const googleLogin = async () => {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider);
+};
 
 // 로그인 (POST)
-export const login = async (name, email) => {
-  const input = {
-    userName: name,
-    userEmail: email,
-  };
-
-  const resp = await API.post("/user/login", JSON.stringify(input));
-  console.log(resp);
+export const login = async (user) => {
+  const resp = await API.post("/user/login", JSON.stringify(user));
 
   if (resp.data.isSuccess) {
     const user = {
@@ -47,4 +47,15 @@ export const getNote = async (userID, noteID) => {
   if (resp.data.isSuccess) {
     return resp.data.result;
   }
+};
+
+// 연락 폼 보내기 (POST)
+export const sendContact = async (name, email, message) => {
+  const req = {
+    name: name,
+    email: email,
+    message: message,
+  };
+
+  return await API.post("/contact", JSON.stringify(req));
 };
