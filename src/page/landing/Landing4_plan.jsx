@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Landing5() {
+  const navigate = useNavigate();
+
   return (
     <Background>
       <Wrapper>
@@ -40,7 +43,7 @@ export default function Landing5() {
               </PlanDetail>
             </PlanTextWrapper>
 
-            <Button> Contact us</Button>
+            <Button onClick={() => navigate("/contact")}> Contact us</Button>
           </Plan>
         </PlanWrapper>
       </Wrapper>

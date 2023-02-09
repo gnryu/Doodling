@@ -84,11 +84,13 @@ export default function Main() {
           </>
         )}
       </SearchWrapper>
+      <Button onClick={() => navigate("/write")}>NEW</Button>
       <MemoWrapper>
-        <NewNote />
         {noteList.map((note, index) => {
           return <Note key={index} note={note} />;
         })}
+
+        {noteList.length <= 0 && <Text>Make a new note ☺</Text>}
       </MemoWrapper>
     </Wrapper>
   );
@@ -158,11 +160,34 @@ const SearchImage = styled.img`
   cursor: pointer;
 `;
 
+const Button = styled.div`
+  font-family: "NotoSans-Bold";
+  font-size: 14px;
+  color: #2b234a;
+  background: #ffffff;
+  border: 2px solid #2b234a;
+  border-radius: 10px;
+
+  padding: 5px 25px;
+  margin-top: 10px;
+  align-self: end;
+  cursor: pointer;
+`;
+
 const MemoWrapper = styled.div`
   width: 100%;
-  margin-top: 30px;
+  margin-top: 10px;
 
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+`;
+
+const Text = styled.div`
+  width: 100%;
+  font-family: "NotoSans-Regular";
+  font-size: 18px;
+  color: #2b234ab1;
+  text-align: center;
+  margin-top: 100px;
 `;
